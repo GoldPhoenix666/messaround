@@ -112,9 +112,9 @@ $table1 .= "
 
 
 
-$conclusion = mysqli_query($conn, "SELECT *, SUM(`hours`) as 'hours', SUM(`minutes`) as 'minutes', COUNT(`activity`) as 'activity' FROM `person` JOIN `pieinfo` ON `person`.`personid` = `pieinfo`.`personid` GROUP BY `personname` ORDER BY `personname` ASC");
+$conclusion = mysqli_query($conn, "SELECT *, SUM(`hours`) as 'hours', SUM(`minutes`) as 'minutes', COUNT(`activity`) as 'activity' FROM `pieinfo` JOIN `person` ON `pieinfo`.`personid` = `person`.`personid` GROUP BY `personname` ORDER BY `personname` ASC");
 
-
+var_dump($conclusion);
 
 
 $table2 = "
@@ -170,14 +170,13 @@ $table2 .= "
 	
 		body{
 			padding:5px;
-
 		}
 
 		table, th, td {
    			border: 1px solid black;
     		border-collapse: collapse;
     		text-align:center;
-
+    	}
 
 	</style>
 
