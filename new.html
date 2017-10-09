@@ -1,0 +1,92 @@
+
+<html>
+
+<head>
+
+<style type="text/css">
+
+
+  div.google-visualization-tooltip {
+  white-space: nowrap;
+  height: 10px;
+  border-radius: 10px;
+  border: 1px solid #435279;
+  padding: 10px;
+  color: #3d4f61;
+}
+
+
+
+
+</style>
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+
+function drawChart() {
+
+    var dataArray = [
+       ['Sleeping - 6.5 Hours - ', 30],
+        ['Working - 12 Hours -', 50],
+        ['Eating - 30 Minutes - ', 05],
+        ['Youtube - 1 Hour - ', 10], 
+        ['Waiting - 30 minutes -', 05] 
+    ];
+    
+    var total = getTotal(dataArray);
+    
+    // Adding tooltip column  
+    for (var i = 0; i < dataArray.length; i++) {
+      dataArray[i].push(customTooltip(dataArray[i][0], dataArray[i][1], total));
+    }
+    
+    // Changing legend  
+    for (var i = 0; i < dataArray.length; i++) {
+      dataArray[i][0] = dataArray[i][0] + " " + 
+              dataArray[i][1] + " percent - " + ((dataArray[i][1] / total) * 100).toFixed(1) + "%"; 
+    }
+    
+    // Column names
+    dataArray.unshift(['Goal Name', 'No. of times Requested', 'Tooltip']);
+    
+    var data = google.visualization.arrayToDataTable(dataArray);
+
+    // Setting role tooltip
+    data.setColumnProperty(2, 'role', 'tooltip');
+    data.setColumnProperty(2, 'html', true);
+
+    var options = {
+        title: 'Amount of Time in the day',
+        width: 900,
+        height: 400,
+        tooltip: { isHtml: true }
+    };
+    
+    var chart = new google.visualization.PieChart(document.getElementById('piechart2'));
+    chart.draw(data, options);
+}
+
+function customTooltip(name, value, total) {
+    return name + '<br/><b>' + value + ' (' + ((value/total) * 100).toFixed(1) + '%)</b>';
+}
+
+function getTotal(dataArray) {
+    var total = 0;
+    for (var i = 0; i < dataArray.length; i++) {
+      total += dataArray[i][1];
+    }
+    return total;
+}
+
+
+google.load('visualization', '1', {packages:['corechart'], callback: drawChart});
+
+</script>
+
+</head>
+
+<body>
+<div id="piechart2"></div>
+</body>
+
+</html>

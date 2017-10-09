@@ -1,0 +1,26 @@
+#1{
+position: absolute;
+left:1%;
+width:30%;
+border: 1px black solid;
+
+}
+
+#2{
+position: absolute;
+width:30%;
+left:30%;
+right:30%;
+border: 1px black solid;
+
+}
+
+#3{
+position: absolute;
+right:1%;
+width:30%;
+border: 1px black solid;
+
+
+
+}

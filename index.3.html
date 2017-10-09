@@ -1,0 +1,72 @@
+
+<html>
+
+<head>
+
+function drawChart() {
+
+    var dataArray = [
+        ['Frank.net Life Cover', 226],
+        ['Frank.net Hospital Cash Back', 147],
+        ['Frank.net Salary Protection', 228],
+        ['King Price Car Insurance', 328],
+        ['Momentum Medical Aid', 493],
+        ['Oplan Health Cover', 185,],
+        ['Youi Quote', 33],
+    ];
+    
+  	var total = getTotal(dataArray);
+    
+		// Adding tooltip column  
+  	for (var i = 0; i < dataArray.length; i++) {
+      dataArray[i].push(customTooltip(dataArray[i][0], dataArray[i][1], total));
+    }
+    
+    // Changing legend  
+  	for (var i = 0; i < dataArray.length; i++) {
+      dataArray[i][0] = dataArray[i][0] + " " + 
+          		dataArray[i][1] + " requests, " + ((dataArray[i][1] / total) * 100).toFixed(1) + "%"; 
+    }
+    
+    // Column names
+    dataArray.unshift(['Goal Name', 'No. of times Requested', 'Tooltip']);
+    
+    var data = google.visualization.arrayToDataTable(dataArray);
+
+    // Setting role tooltip
+    data.setColumnProperty(2, 'role', 'tooltip');
+    data.setColumnProperty(2, 'html', true);
+
+    var options = {
+        title: 'Most Requested Sponsors',
+        width: 900,
+        height: 400,
+        tooltip: { isHtml: true }
+    };
+		
+    var chart = new google.visualization.PieChart(document.getElementById('piechart2'));
+    chart.draw(data, options);
+}
+
+function customTooltip(name, value, total) {
+    return name + '<br/><b>' + value + ' (' + ((value/total) * 100).toFixed(1) + '%)</b>';
+}
+
+function getTotal(dataArray) {
+    var total = 0;
+   	for (var i = 0; i < dataArray.length; i++) {
+      total += dataArray[i][1];
+    }
+    return total;
+}
+
+
+google.load('visualization', '1', {packages:['corechart'], callback: drawChart});
+
+</head>
+
+<body>
+
+</body>
+
+</html>
