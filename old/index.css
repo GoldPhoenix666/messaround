@@ -1,0 +1,30 @@
+body{
+margin-bottom:0px;
+}
+
+#infobox{
+position: absolute;
+width: 10%;
+height:auto;
+top:10%;	
+left: 37.5%;
+}
+
+#sleeping{
+color:blue;
+}
+
+p{
+color:blue;
+margin:0px;
+}
+
+.hours{
+color:orange;
+margin:0px;
+}
+
+.percent{
+color:green;
+margin:0px;
+}
