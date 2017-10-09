@@ -170,7 +170,6 @@ $table2 .= "
 	
 		body{
 			padding:5px;
-
 		}
 
 		table, th, td {
