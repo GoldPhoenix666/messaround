@@ -114,7 +114,7 @@ $table1 .= "
 
 $conclusion = mysqli_query($conn, "SELECT *, SUM(`hours`) as 'hours', SUM(`minutes`) as 'minutes', COUNT(`activity`) as 'activity' FROM `person` JOIN `pieinfo` ON `person`.`personid` = `pieinfo`.`personid` GROUP BY `personname` ORDER BY `personname` ASC");
 
-
+var_dump($conclusion);
 
 
 $table2 = "
