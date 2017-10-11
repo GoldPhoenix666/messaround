@@ -315,7 +315,6 @@ $table3 .= "
 <?php echo $add_rows2 ?>  
 
       	var options = {
-        vAxis:{direction: -1},
         title: 'Activities in hours',
         chartArea: {width: '70%',},
         hAxis: {
@@ -355,22 +354,15 @@ $table3 .= "
         data.addColumn('number', 'Quantity');
       	data.addColumn({type: 'string', role: 'annotation'});
     
-       	var info = [
-      		{
-        qn: 0
-      		}
-    	];
+       	var info = [{qn:0}];
 
     	var data = new google.visualization.arrayToDataTable([
-      	['', 'Total: '],
-      	[info[0]["name"] , info[0]["qn"]], 
-    		]);
+      	['', 'Total: '], [info[0]["name"], info[0]["qn"]], ]);
 
 
 <?php echo $addsecbar ?>  
 
       	var options = {
-        vAxis:{direction: -1},
         title: 'Peoples activities',
         chartArea: {width: '70%',},
         hAxis: {
@@ -381,7 +373,7 @@ $table3 .= "
 
         vAxis: {
         title: 'Name',
-        direction:'1'
+        direction:'-1'
         },
 
         annotation:{
