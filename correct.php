@@ -247,16 +247,16 @@ $table3 .= "
     <script src="js/bootstrap.min.js"></script>
 
 	<style type="text/css">
-	
+
 		body{
 			padding:5px;
 		}
 
-		table, th, td {
-   			border: 1px solid black;
-    		border-collapse: collapse;
-    		text-align:center;
-    	}
+		table, th, td{
+			border:1px solid black;
+			border-collapse: collapse;
+			text-align: center;
+		}
 
 	</style>
 
