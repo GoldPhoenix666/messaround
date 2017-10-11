@@ -298,18 +298,6 @@ $table3 .= "
      	var data = new google.visualization.DataTable();
         data.addColumn('string', 'name');
         data.addColumn('number', 'Quantity');
-      	data.addColumn({type: 'string', role: 'annotation'});
-    
-       	var info = [
-      		{
-        qn: 0
-      		}
-    	];
-
-    	var data = new google.visualization.arrayToDataTable([
-      	['', 'Total: '],
-      	[info[0]["name"] , info[0]["qn"]],  
-    		]);
 
 
 <?php echo $add_rows2 ?>  
@@ -333,9 +321,7 @@ $table3 .= "
 
         style:'line'
 
-          }         
-        }
-      	};
+          }}};
       	var chart = new google.visualization.BarChart(document.getElementById('chart_div2'));
       	chart.draw(data, options);
     };
@@ -352,14 +338,7 @@ $table3 .= "
      	var data = new google.visualization.DataTable();
         data.addColumn('string', 'name');
         data.addColumn('number', 'Quantity');
-      	data.addColumn({type: 'string', role: 'annotation'});
     
-       	var info = [{qn:0}];
-
-    	var data = new google.visualization.arrayToDataTable([
-      	['', 'Total: '], [info[0]["name"], info[0]["qn"]], ]);
-
-
 <?php echo $addsecbar ?>  
 
       	var options = {
@@ -381,9 +360,7 @@ $table3 .= "
 
         style:'line'
 
-          }         
-        }
-      	};
+          }}};
       	var chart = new google.visualization.BarChart(document.getElementById('chart_div3'));
       	chart.draw(data, options);
     };
