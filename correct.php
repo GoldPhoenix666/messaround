@@ -261,7 +261,6 @@ $table3 .= "
 	</style>
 
 
-<!--This is the script for the piechart//START-->
 	<script type="text/javascript" >
       	google.charts.load('current', {'packages':['corechart']});
       	google.charts.setOnLoadCallback(drawChart);
@@ -287,12 +286,8 @@ $table3 .= "
       	// Changing legend  
 	};
 	</script>
-<!--This is the script for the piechart//END-->
 
 
-
-
-<!--This is the script for the 1st barchart//START-->
 	<script type="text/javascript">
   
 	  	google.charts.load('current', {packages: ['corechart', 'bar']});
@@ -305,7 +300,7 @@ $table3 .= "
         data.addColumn('number', 'Quantity');
       	data.addColumn({type: 'string', role: 'annotation'});
     
-       var info = [
+       	var info = [
       		{
         qn: 0
       		}
@@ -313,17 +308,9 @@ $table3 .= "
 
     	var data = new google.visualization.arrayToDataTable([
       	['', 'Total: '],
-      	// add each element manually
-      	[info[0]["name"] , info[0]["qn"]],  //first element
+      	[info[0]["name"] , info[0]["qn"]],  
     		]);
 
-    	// add each element via forEach loop
-    	info.forEach(function(value, index, array){
-      	data.addRow([
-        value.name,
-        value.qn
-      	]);
-    	})
 
 <?php echo $add_rows2 ?>  
 
@@ -353,8 +340,7 @@ $table3 .= "
       	var chart = new google.visualization.BarChart(document.getElementById('chart_div2'));
       	chart.draw(data, options);
     };
-</script>
-<!--This is the script for the 1st barchart//END-->
+	</script>
 
 
 	<script type="text/javascript">
@@ -369,7 +355,7 @@ $table3 .= "
         data.addColumn('number', 'Quantity');
       	data.addColumn({type: 'string', role: 'annotation'});
     
-       var info = [
+       	var info = [
       		{
         qn: 0
       		}
@@ -377,17 +363,9 @@ $table3 .= "
 
     	var data = new google.visualization.arrayToDataTable([
       	['', 'Total: '],
-      	// add each element manually
-      	[info[0]["name"] , info[0]["qn"]],  //first element
+      	[info[0]["name"] , info[0]["qn"]], 
     		]);
 
-    	// add each element via forEach loop
-    	info.forEach(function(value, index, array){
-      	data.addRow([
-        value.name,
-        value.qn
-      	]);
-    	})
 
 <?php echo $addsecbar ?>  
 
@@ -417,7 +395,7 @@ $table3 .= "
       	var chart = new google.visualization.BarChart(document.getElementById('chart_div3'));
       	chart.draw(data, options);
     };
-</script>
+	</script>
 
 </head>
 
