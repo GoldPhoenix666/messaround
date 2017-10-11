@@ -15,6 +15,7 @@ if ($conn->connect_error) {
 
 
 
+
 //If the GET command 'status1' is in the URL display this message
 if(!empty($_GET['status1'])) {
 	    $message = mysqli_real_escape_string($conn, $_GET['status1']);
@@ -62,13 +63,13 @@ $statusmessage =  "<h1 class='alert alert-danger alert-dismissable fade in'><a h
 }
 
 
-$datagrab = mysqli_query($conn, "SELECT * FROM `pieinfo` LEFT JOIN `person` ON `pieinfo`.`personid` = `person`.`personid`");
+$datagrab = mysqli_query($conn, "SELECT * FROM `pieinfo` LEFT JOIN `person` ON `pieinfo`.`personid` = `person`.`personid` ORDER BY `personname` ASC, `activity` ASC");
 
 
 $table1 = "
-<div class='container-fluid'>
-<div class='row'>
-<table class='table-hover span5 align-self-start '>
+<div class='row-fluid'>
+<div class='span4' style=\"border:1px blue solid;\" >
+<table class='table-hover align-self-start '>
 <tr>
 <th>Name</th>
 <th>Hours</th>
@@ -104,6 +105,7 @@ $table1 .=  "
 
 $table1 .= "
 </table>
+</div>
 ";
 
 
@@ -112,13 +114,13 @@ $table1 .= "
 
 
 
-$conclusion = mysqli_query($conn, "SELECT *, SUM(`hours`) as 'hours', SUM(`minutes`) as 'minutes', COUNT(`activity`) as 'activity' FROM `pieinfo` JOIN `person` ON `pieinfo`.`personid` = `person`.`personid` GROUP BY `personname` ORDER BY `personname` ASC");
+$conclusion = mysqli_query($conn, "SELECT `person`.`personid`, `personname`, IFNULL(SUM(`hours`), 0) as 'hours', IFNULL(SUM(`minutes`), 0) as 'minutes', IFNULL(COUNT(`activity`), 0) as 'activity' FROM `person` LEFT JOIN `pieinfo` ON `person`.`personid` = `pieinfo`.`personid` GROUP BY `personname` ORDER BY `activity` DESC ");
 
-var_dump($conclusion);
 
 
 $table2 = "
-<table class='table-hover span5 offset1'>
+<div class='span4' style=\"border:1px orange solid;\" >
+<table class='table-hover'>
 <tr>
 <th>Name</th>
 <th>Total Hours</th>
@@ -148,9 +150,33 @@ $table2 .=  "
 $table2 .= "
 </table>
 </div>
-</div>
 ";
 
+
+$threecharm = mysqli_query($conn, "SELECT `activity`, COUNT(`activity`) AS MOST_FREQUENT FROM `pieinfo` GROUP BY `activity` ORDER BY COUNT(`activity`) DESC");
+
+$table3 = "
+<div class='span4' style=\"border:1px green solid;\" >
+<table class='table-hover'>
+<tr>
+<th>Activity</th>
+<th>Occurrence</th>
+</tr>
+";
+
+while ($lowrow = mysqli_fetch_assoc($threecharm)) {
+$table3 .= "
+<tr>
+		<td>" .$lowrow['activity']. "</td>
+		<td>" .$lowrow['MOST_FREQUENT']. "</td>
+</tr>
+";}
+
+$table3 .= "
+</table>
+</div>
+</div>
+";
 
 ?>
 <!DOCTYPE html>
@@ -201,16 +227,12 @@ echo $statusmessage;
 
 <?php echo $table2 ?>
 
-<br />
-<br />
-<br />
-<br />
-<br />
+<?php echo $table3 ?>
+
 <br />
 
-<div class='container-fluid'>
-<div class='row'>
-<div class="span6">
+<div class='row-fluid'>
+<div class="span6" style="border: 1px red solid;" >
 
 	<h3>Enter Information here to add Information</h3>
 
@@ -222,7 +244,7 @@ echo $statusmessage;
 
 		<label for="Hours">Hours of said activity:</label>
 
-			<input type="text" name="hours" placeholder="Hours" value="<?php echo $row['hours']; ?>">
+			<input type="number" name="hours" placeholder="Hours" value="<?php echo $row['hours']; ?>">
 
 
 		<label for="Minutes">Minutes of said activity:</label>
@@ -256,7 +278,7 @@ echo $statusmessage;
 
 </div>
 
-<div class="span6 ">
+<div class="span6" style="border: 1px red solid; ">
 	<h3>Use this form to add a new name</h3>
 
 	<form action="addname.php" method="post">
@@ -271,7 +293,6 @@ echo $statusmessage;
 
 	</form>
 
-</div>
 </div>
 </div>
 

@@ -119,7 +119,7 @@ $activityinfo = mysqli_fetch_assoc($datagrab);
 
 			<label for="hours">Hours of said activity:</label>
 
-					<input type="text"  name="hours" value="<?php echo $activityinfo['hours']; ?>"><br />
+					<input type="number"  name="hours" value="<?php echo $activityinfo['hours']; ?>"><br />
 
 
 

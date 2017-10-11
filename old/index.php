@@ -18,7 +18,7 @@ if ($conn->connect_error) {
 
 
 
-$perquery = mysqli_query($conn, "SELECT *, (SUM(`hours`)* 100 / (SELECT SUM(hours) From `pieinfo`)) as `percent` From `pieinfo` Group By `dataid`");
+$perquery = mysqli_query($conn, "SELECT *, (SUM(`hours`)* 100 / (SELECT SUM(hours) FROM `pieinfo`)) AS `percent` FROM `pieinfo` GROUP BY `dataid`");
 
 
 
@@ -338,7 +338,7 @@ google.load('visualization', '1', {packages:['corechart'], callback: drawChartSe
 
 <div id="chart_div" style="width: 900px; height: 500px;"></div>
 
-<div style="float:left;" id="chart_div2"></div>
+<!--<div style="float:left;" id="chart_div2"></div>-->
 <br />
 <br />
 <br />
