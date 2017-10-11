@@ -22,16 +22,8 @@ $add_rows = '';
 while ($pierow = mysqli_fetch_assoc($piechartquery)) {
 
 
-    $add_rows .= 'data.addRow(["' . 
-    $pierow['activity'] . 
-    "  " . 
-    $pierow['hours'] . 
-    " hours " . 
-    number_format((float)$pierow['percent'], 2, '.', '')  . 
-    "%" . 
-    '", ' . 
-    $pierow['hours'] . 
-    ']);';
+    $add_rows .= 'data.addRow(["' . $pierow['activity'] . "  " . $pierow['hours'] . " hours " .
+    number_format((float)$pierow['percent'], 2, '.', '')  . "%" . '", ' . $pierow['hours'] . ']);';
 };
 //THIS IS CODE FOR THE PIECHART//END
 
@@ -117,16 +109,16 @@ $datagrab = mysqli_query($conn, "SELECT * FROM `pieinfo` LEFT JOIN `person` ON `
 
 $table1 = "
 <div class='row-fluid'>
-<div class='span4' style=\"border:0px blue solid;\" >
-<table class='table-hover align-self-start '>
-<tr>
-<th>Name</th>
-<th>Hours</th>
-<th>Minutes</th>
-<th>Activity</th>
-<th>Delete</th>
-<th>Edit</th>
-</tr>
+	<div class='span4' style=\"border:0px blue solid;\" >
+		<table class='table-hover align-self-start '>
+			<tr>
+				<th>Name</th>
+				<th>Hours</th>
+				<th>Minutes</th>
+				<th>Activity</th>
+				<th>Delete</th>
+				<th>Edit</th>
+			</tr>
 ";
 
 while ($row = mysqli_fetch_assoc($datagrab)) {
