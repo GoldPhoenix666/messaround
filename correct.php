@@ -249,11 +249,11 @@ $table3 .= "
 	<style type="text/css">
 	
 		body{
-			padding:5px;
+		padding:5px;
 		}
 
 		table, th, td {
-   			border: 1px solid black;
+   		border: 1px solid black;
     		border-collapse: collapse;
     		text-align:center;
     	}
