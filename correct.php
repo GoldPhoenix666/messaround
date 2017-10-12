@@ -107,7 +107,7 @@ $statusmessage =  "<h1 class='alert alert-danger alert-dismissable fade in'><a h
 $datagrab = mysqli_query($conn, "SELECT * FROM `pieinfo` LEFT JOIN `person` ON `pieinfo`.`personid` = `person`.`personid` ORDER BY `personname` ASC, `activity` ASC");
 
 
-$table1 = "
+$acttable = "
 <div class='row-fluid'>
 	<div class='span4' style=\"border:0px blue solid;\" >
 		<table class='table-hover align-self-start '>
@@ -122,7 +122,7 @@ $table1 = "
 ";
 
 while ($row = mysqli_fetch_assoc($datagrab)) {
-$table1 .=  "
+$acttable .=  "
 <tr>
 		<td>" .$row['personname']. "</td>
 		<td>" .$row['hours']. "</td>
@@ -144,7 +144,7 @@ $table1 .=  "
 
 }
 
-$table1 .= "
+$acttable .= "
 </table>
 </div>
 ";
@@ -161,7 +161,7 @@ $conclusion = mysqli_query($conn, "SELECT `person`.`personid`, `personname`, IFN
 $addsecbar = "";
 
 
-$table2 = "
+$totaltable = "
 <div class='span4' style=\"border:0px orange solid;\" >
 <table class='table-hover'>
 <tr>
@@ -176,7 +176,7 @@ $table2 = "
 
 while ($row = mysqli_fetch_assoc($conclusion)) {
 
-$table2 .=  "
+$totaltable .=  "
 <tr>
 		<td>" .$row['personname']. "</td>
 		<td>" .$row['hours']. "</td>
@@ -197,7 +197,7 @@ $table2 .=  "
 	
 }
 
-$table2 .= "
+$totaltable .= "
 </table>
 </div>
 ";
@@ -210,7 +210,7 @@ $table2 .= "
 //Data Grab for the third table//START
 $threecharm = mysqli_query($conn, "SELECT `activity`, COUNT(`activity`) AS MOST_FREQUENT FROM `pieinfo` GROUP BY `activity` ORDER BY COUNT(`activity`) DESC");
 
-$table3 = "
+$occtable = "
 <div class='span4' style=\"border:0px green solid;\" >
 <table class='table-hover'>
 <tr>
@@ -220,14 +220,14 @@ $table3 = "
 ";
 
 while ($lowrow = mysqli_fetch_assoc($threecharm)) {
-$table3 .= "
+$occtable .= "
 <tr>
 		<td>" .$lowrow['activity']. "</td>
 		<td>" .$lowrow['MOST_FREQUENT']. "</td>
 </tr>
 ";}
 
-$table3 .= "
+$occtable .= "
 </table>
 </div>
 </div>
@@ -410,11 +410,11 @@ echo $statusmessage;
 
 	<h2>This is the information from the server</h2>
 
-<?php echo $table1 ?>	
+<?php echo $acttable ?>	
 
-<?php echo $table2 ?>
+<?php echo $totaltable ?>
 
-<?php echo $table3 ?>
+<?php echo $occtable ?>
 
 <br />
 
