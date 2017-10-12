@@ -11,16 +11,16 @@ if ($conn->connect_error) {
 
 $piechartquery = mysqli_query($conn, "SELECT *, (SUM(`hours`)* 100 / (SELECT SUM(hours) FROM `pieinfo`)) AS `percent` FROM `pieinfo` GROUP BY `dataid`");
 
-$add_rows = '';
+$allinfopie = '';
 while ($pierow = mysqli_fetch_assoc($piechartquery)) {
-    $add_rows .= 'piedata.addRow(["' . $pierow['activity'] . "  " . $pierow['hours'] . " hours " .
+    $allinfopie .= 'piedata.addRow(["' . $pierow['activity'] . "  " . $pierow['hours'] . " hours " .
     number_format((float)$pierow['percent'], 2, '.', '')  . "%" . '", ' . $pierow['hours'] . ']);';};
 
 $barchartquery = mysqli_query($conn, "SELECT * FROM `pieinfo`");
 
-$add_rows2 = '';
+$activerows = '';
 while ($barrow = mysqli_fetch_assoc($barchartquery)) {
-    $add_rows2 .= 'bardata.addRow(["' . $barrow['activity'] . "  " . '", ' . $barrow['hours'] . ']);';};
+    $activerows .= 'activechartdata.addRow(["' . $barrow['activity'] . "  " . '", ' . $barrow['hours'] . ']);';};
 
 //If the GET command is in the URL display this message
 if(!empty($_GET['status1'])) {
@@ -48,7 +48,7 @@ if(!empty($_GET['status6'])) {
 $statusmessage =  '<h1 class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Infomation Unaltered!<p style="text-decoration:underline; font-size:20px;">Information has not been altered</p></h1>';}
 
 //Data Grab for the first table//START
-$datagrab = mysqli_query($conn, "SELECT * FROM `pieinfo` LEFT JOIN `person` ON `pieinfo`.`personid` = `person`.`personid` ORDER BY `personname` ASC, `activity` ASC");
+$activitydata = mysqli_query($conn, "SELECT * FROM `pieinfo` LEFT JOIN `person` ON `pieinfo`.`personid` = `person`.`personid` ORDER BY `personname` ASC, `activity` ASC");
 
 $activitytable = '
 <div class="row-fluid">
@@ -58,7 +58,7 @@ $activitytable = '
 				<th>Name</th><th>Hours</th><th>Minutes</th><th>Activity</th><th>Delete</th><th>Edit</th>
 			</tr>';
 
-while ($row = mysqli_fetch_assoc($datagrab)) {
+while ($row = mysqli_fetch_assoc($activitydata)) {
 $activitytable .=  '
 <tr>
 	<td>' .$row['personname']. '</td>
@@ -83,20 +83,20 @@ $activitytable .=  '
 $activitytable .= '</table></div>';
 
 //Data Grab for the second table//START
-$conclusion = mysqli_query($conn, "SELECT `person`.`personid`, `personname`, IFNULL(SUM(`hours`), 0) as 'hours', IFNULL(SUM(`minutes`), 0) as 'minutes', IFNULL(COUNT(`activity`), 0) as 'activity' FROM `person` LEFT JOIN `pieinfo` ON `person`.`personid` = `pieinfo`.`personid` GROUP BY `personname` ORDER BY `activity` DESC ");
+$peopledata = mysqli_query($conn, "SELECT `person`.`personid`, `personname`, IFNULL(SUM(`hours`), 0) as 'hours', IFNULL(SUM(`minutes`), 0) as 'minutes', IFNULL(COUNT(`activity`), 0) as 'activity' FROM `person` LEFT JOIN `pieinfo` ON `person`.`personid` = `pieinfo`.`personid` GROUP BY `personname` ORDER BY `activity` DESC ");
 
-$addsecbar = "";
+$peoplechart = "";
 
-$totaltable = '
+$peopletable = '
 <div class="span4" style="border:0px orange solid;" >
 	<table class="table-hover" style="float: none; margin: 0 auto;">
 		<tr>
 			<th>Name</th><th>Total Hours</th><th>Total Minutes</th><th># of Activities</th><th>Delete</th>
 		</tr>';
 
-while ($row = mysqli_fetch_assoc($conclusion)) {
+while ($row = mysqli_fetch_assoc($peopledata)) {
 
-$totaltable .=  '
+$peopletable .=  '
 <tr>
 	<td>' .$row['personname']. '</td>
 	<td>' .$row['hours']. '</td>
@@ -110,10 +110,10 @@ $totaltable .=  '
 	</td>
 </tr>';
 
-$addsecbar .= '
-data.addRow(["' . $row['personname'] . "  " . '", ' . $row['activity'] . ']);';}
+$peoplechart .= '
+namechartdata.addRow(["' . $row['personname'] . "  " . '", ' . $row['activity'] . ']);';}
 
-$totaltable .= '</table></div>';
+$peopletable .= '</table></div>';
 
 //Data Grab for the third table//START
 $occurrencedata = mysqli_query($conn, "SELECT `activity`, COUNT(`activity`) AS MOST_FREQUENT FROM `pieinfo` GROUP BY `activity` ORDER BY COUNT(`activity`) DESC");
@@ -170,7 +170,7 @@ $occurrencetable .= "</table></div></div>";
       	piedata.addColumn('string', 'time');
       	piedata.addColumn('number', 'hours');
 
-<?php echo $add_rows ?>
+<?php echo $allinfopie ?>
 
       	var options = {title: 'List of all Infomation', sliceVisibilityThreshold: 0};
 
@@ -184,13 +184,13 @@ $occurrencetable .= "</table></div></div>";
 
 		function drawVisualization() {
 
-     	var bardata = new google.visualization.DataTable();
-        bardata.addColumn('string', 'name');
-        bardata.addColumn('number', 'Quantity');
+     	var activechartdata = new google.visualization.DataTable();
+        activechartdata.addColumn('string', 'name');
+        activechartdata.addColumn('number', 'Quantity');
 
-<?php echo $add_rows2 ?>  
+<?php echo $activerows ?>  
 
-		bardata.sort({column: 1, desc: false});
+		activechartdata.sort({column: 1, desc: false});
 		
       	var options = {title: 'Activities in hours', chartArea: {width: '60%',},
       	hAxis: {chartArea: {height: '70%',}, title: 'Hours', minValue: 0},
@@ -199,7 +199,7 @@ $occurrencetable .= "</table></div></div>";
 
         annotation:{1:{style:'line'}}};
       	var chart = new google.visualization.BarChart(document.getElementById('chart_div2'));
-      	chart.draw(bardata, options);};
+      	chart.draw(activechartdata, options);};
 	</script>
 
 	<script type="text/javascript">
@@ -212,7 +212,7 @@ $occurrencetable .= "</table></div></div>";
         namechartdata.addColumn('string', 'name');
         namechartdata.addColumn('number', 'Quantity');
     
-<?php echo $addsecbar ?>  
+<?php echo $peoplechart ?>  
 
       	var options = {title: 'Peoples activities', chartArea: {width: '60%',},
       	hAxis: {chartArea: {height: '70%',}, title: '# of Activities', minValue: 0},
@@ -247,7 +247,7 @@ echo $statusmessage;}
 </div>
 
 <?php echo $activitytable ?>	
-<?php echo $totaltable ?>
+<?php echo $peopletable ?>
 <?php echo $occurrencetable ?>
 
 <br />
