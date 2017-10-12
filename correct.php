@@ -20,95 +20,73 @@ $piechartquery = mysqli_query($conn, "SELECT *, (SUM(`hours`)* 100 / (SELECT SUM
 
 $add_rows = '';
 while ($pierow = mysqli_fetch_assoc($piechartquery)) {
-
-
     $add_rows .= 'data.addRow(["' . $pierow['activity'] . "  " . $pierow['hours'] . " hours " .
     number_format((float)$pierow['percent'], 2, '.', '')  . "%" . '", ' . $pierow['hours'] . ']);';
 };
 //THIS IS CODE FOR THE PIECHART//END
 
-
 //break bweteen
-
 
 //This is the code for the BARCHART//START
 $barchartquery = mysqli_query($conn, "SELECT * FROM `pieinfo`");
 
 
-
 $add_rows2 = '';
 while ($barrow = mysqli_fetch_assoc($barchartquery)) {
-
-
     $add_rows2 .= '
     data.addRow(["' . $barrow['activity'] . "  " . '", ' . $barrow['hours'] . ']);';
 };
 //This is the code for the BARCHART//END
 
-
 //break bweteen
-
 
 //Query Status//START
 //If the GET command 'status1' is in the URL display this message
 if(!empty($_GET['status1'])) {
 	    $message = mysqli_real_escape_string($conn, $_GET['status1']);
-$statusmessage = "<h1 class='alert alert-success alert-dismissable fade in'><a href='#' class='close' data-dismiss='alert' aria-label='close'>×</a>Update Successful!<p style='text-decoration:underline; font-size:20px;'>Information has been updated</p></h1>";
+$statusmessage = "<h1 class=\"alert alert-success alert-dismissable fade in\"><a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">×</a>Update Successful!<p style=\"text-decoration:underline; font-size:20px;\">Information has been updated</p></h1>";
 }
-
-
 
 //If the GET command 'status2' is in the URL display this message
 if(!empty($_GET['status2'])) {
     $message = mysqli_real_escape_string($conn, $_GET['status2']);
-$statusmessage = "<h1 class='alert alert-success alert-dismissable fade in'><a href='#' class='close' data-dismiss='alert' aria-label='close'>×</a>New Activity Added!<p style='text-decoration:underline; font-size:20px;'>Information has been added</p></h1>";
+$statusmessage = "<h1 class=\"alert alert-success alert-dismissable fade in\"><a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">×</a>New Activity Added!<p style=\"text-decoration:underline; font-size:20px;\">Information has been added</p></h1>";
 }
-
-
 
 //If the GET command 'status3' is in the URL display this message
 if(!empty($_GET['status3'])) {
     $message = mysqli_real_escape_string($conn, $_GET['status3']);
-$statusmessage =  "<h1 class='alert alert-success alert-dismissable fade in'><a href='#' class='close' data-dismiss='alert' aria-label='close'>×</a>Record Deleted!<p style='text-decoration:underline; font-size:20px;'>Information has been deleted</p></h1>";
+$statusmessage =  "<h1 class=\"alert alert-success alert-dismissable fade in\"><a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">×</a>Record Deleted!<p style=\"text-decoration:underline; font-size:20px;\">Information has been deleted</p></h1>";
 }
-
-
 
 //If the GET command 'status4' is in the URL display this message
 if(!empty($_GET['status4'])) {
     $message = mysqli_real_escape_string($conn, $_GET['status4']);
-$statusmessage =  "<h1 class='alert alert-danger alert-dismissable fade in'><a href='#' class='close' data-dismiss='alert' aria-label='close'>×</a>Update Unsuccessful!<p style='text-decoration:underline; font-size:20px;'>Information has not been updated</p></h1>";
+$statusmessage =  "<h1 class=\"alert alert-danger alert-dismissable fade in\"><a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">×</a>Update Unsuccessful!<p style=\"text-decoration:underline; font-size:20px;\">Information has not been updated</p></h1>";
 }
-
-
 
 //If the GET command 'status5' is in the URL display this message
 if(!empty($_GET['status5'])) {
     $message = mysqli_real_escape_string($conn, $_GET['status5']);
-$statusmessage =  "<h1 class='alert alert-danger alert-dismissable fade in'><a href='#' class='close' data-dismiss='alert' aria-label='close'>×</a>Entry Not Added!<p style='text-decoration:underline; font-size:20px;'>Information has not been added</p></h1>";
+$statusmessage =  "<h1 class=\"alert alert-danger alert-dismissable fade in\"><a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">×</a>Entry Not Added!<p style=\"text-decoration:underline; font-size:20px;\">Information has not been added</p></h1>";
 }
-
-
 
 //If the GET command 'status6' is in the URL display this message
 if(!empty($_GET['status6'])) {
     $message = mysqli_real_escape_string($conn, $_GET['status6']);
-$statusmessage =  "<h1 class='alert alert-danger alert-dismissable fade in'><a href='#' class='close' data-dismiss='alert' aria-label='close'>×</a>Infomation Unaltered!<p style='text-decoration:underline; font-size:20px;'>Information has not been altered</p></h1>";
+$statusmessage =  "<h1 class=\"alert alert-danger alert-dismissable fade in\"><a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">×</a>Infomation Unaltered!<p style=\"text-decoration:underline; font-size:20px;\">Information has not been altered</p></h1>";
 }
 //Query Status//END
 
-
 //break between
-
 
 //Data Grab for the first table//START
 $datagrab = mysqli_query($conn, "SELECT * FROM `pieinfo` LEFT JOIN `person` ON `pieinfo`.`personid` = `person`.`personid` ORDER BY `personname` ASC, `activity` ASC");
 
-
 $acttable = "
-<div class='row-fluid'>
-	<div class='span4' style=\"border:0px blue solid;\" >
-		<table class='table-hover align-self-start '>
+<div class=\"row-fluid\">
+	<div class=\"span4\" style=\"border:0px blue solid;\" >
+		<table class=\"table-hover align-self-start \">
 			<tr>
 				<th>Name</th>
 				<th>Hours</th>
@@ -122,24 +100,23 @@ $acttable = "
 while ($row = mysqli_fetch_assoc($datagrab)) {
 $acttable .=  "
 <tr>
-		<td>" .$row['personname']. "</td>
-		<td>" .$row['hours']. "</td>
-		<td>" .$row['minutes']. "</td>
-		<td>" .$row['activity']. "</td>
-		<td>
-			<form action=\"delete.php\" method=\"post\">
-				<input type=\"hidden\" name=\"dataid\" value=\"". $row['dataid'] ."\" />
-				<input type=\"submit\" style=\"margin-top:20px;\" class=\"btn btn-default\" value=\"Delete\" name=\"delete\" />
-			</form>
-		</td>
-		<td>
-			<form action=\"update.php\" method=\"post\">
-				<input type=\"hidden\" name=\"dataid\" value=\"". $row['dataid'] ."\" />
-				<input type=\"submit\"  style=\"margin-top:20px;\" class=\"btn btn-default\" value=\"Update\" name=\"update\" />
-			</form>
-		</td>
+	<td>" .$row['personname']. "</td>
+	<td>" .$row['hours']. "</td>
+	<td>" .$row['minutes']. "</td>
+	<td>" .$row['activity']. "</td>
+	<td>
+		<form action=\"delete.php\" method=\"post\">
+			<input type=\"hidden\" name=\"dataid\" value=\"". $row['dataid'] ."\" />
+			<input type=\"submit\" style=\"margin-top:20px;\" class=\"btn btn-default\" value=\"Delete\" name=\"delete\" />
+		</form>
+	</td>
+	<td>
+		<form action=\"update.php\" method=\"post\">
+			<input type=\"hidden\" name=\"dataid\" value=\"". $row['dataid'] ."\" />
+			<input type=\"submit\"  style=\"margin-top:20px;\" class=\"btn btn-default\" value=\"Update\" name=\"update\" />
+		</form>
+	</td>
 </tr>";
-
 }
 
 $acttable .= "
@@ -148,51 +125,44 @@ $acttable .= "
 ";
 //Data Grab for the first table//END
 
-
-//break between tables 
-
+//break between tables
 
 //Data Grab for the second table//START
 $conclusion = mysqli_query($conn, "SELECT `person`.`personid`, `personname`, IFNULL(SUM(`hours`), 0) as 'hours', IFNULL(SUM(`minutes`), 0) as 'minutes', IFNULL(COUNT(`activity`), 0) as 'activity' FROM `person` LEFT JOIN `pieinfo` ON `person`.`personid` = `pieinfo`.`personid` GROUP BY `personname` ORDER BY `activity` DESC ");
 
-
 $addsecbar = "";
 
-
 $totaltable = "
-<div class='span4' style=\"border:0px orange solid;\" >
-<table class='table-hover'>
-<tr>
-<th>Name</th>
-<th>Total Hours</th>
-<th>Total Minutes</th>
-<th># of Activities</th>
-<th>Delete</th>
-</tr>
+<div class=\"span4\" style=\"border:0px orange solid;\" >
+	<table class=\"table-hover\">
+		<tr>
+			<th>Name</th>
+			<th>Total Hours</th>
+			<th>Total Minutes</th>
+			<th># of Activities</th>
+			<th>Delete</th>
+		</tr>
 ";
-
 
 while ($row = mysqli_fetch_assoc($conclusion)) {
 
 $totaltable .=  "
 <tr>
-		<td>" .$row['personname']. "</td>
-		<td>" .$row['hours']. "</td>
-		<td>" .$row['minutes']. "</td>
-		<td>" .$row['activity']. "</td>
-		<td>
-			<form action=\"delete2.php\" method=\"post\">
-				<input type=\"hidden\" name=\"personid\" value=\"". $row['personid'] ."\" />
-				<input type=\"submit\" style=\"margin-top:20px;\" class=\"btn btn-default\" value=\"Delete\" name=\"delete\" />
-			</form>
-		</td>
+	<td>" .$row['personname']. "</td>
+	<td>" .$row['hours']. "</td>
+	<td>" .$row['minutes']. "</td>
+	<td>" .$row['activity']. "</td>
+	<td>
+		<form action=\"delete2.php\" method=\"post\">
+			<input type=\"hidden\" name=\"personid\" value=\"". $row['personid'] ."\" />
+			<input type=\"submit\" style=\"margin-top:20px;\" class=\"btn btn-default\" value=\"Delete\" name=\"delete\" />
+		</form>
+	</td>
 </tr>";
 
-
-	$addsecbar .= '
-	data.addRow(["' . $row['personname'] . "  " . '", ' . $row['activity'] . ']);
-	';
-	
+$addsecbar .= '
+data.addRow(["' . $row['personname'] . "  " . '", ' . $row['activity'] . ']);
+';	
 }
 
 $totaltable .= "
@@ -201,27 +171,25 @@ $totaltable .= "
 ";
 //Data Grab for the second table//END
 
-
-//break between tables 
-
+//break between tables
 
 //Data Grab for the third table//START
 $threecharm = mysqli_query($conn, "SELECT `activity`, COUNT(`activity`) AS MOST_FREQUENT FROM `pieinfo` GROUP BY `activity` ORDER BY COUNT(`activity`) DESC");
 
 $occtable = "
-<div class='span4' style=\"border:0px green solid;\" >
-<table class='table-hover'>
-<tr>
-<th>Activity</th>
-<th>Occurrence</th>
-</tr>
+<div class=\"span4\" style=\"border:0px green solid;\" >
+	<table class=\"table-hover\">
+		<tr>
+			<th>Activity</th>
+			<th>Occurrence</th>
+		</tr>
 ";
 
 while ($lowrow = mysqli_fetch_assoc($threecharm)) {
 $occtable .= "
 <tr>
-		<td>" .$lowrow['activity']. "</td>
-		<td>" .$lowrow['MOST_FREQUENT']. "</td>
+	<td>" .$lowrow['activity']. "</td>
+	<td>" .$lowrow['MOST_FREQUENT']. "</td>
 </tr>
 ";}
 
@@ -265,8 +233,6 @@ $occtable .= "
 
       	function drawChart() {
 
-
-
      	var data = new google.visualization.DataTable();
 
       	data.addColumn('string', 'time');
@@ -288,12 +254,8 @@ $occtable .= "
 
 	<script type="text/javascript">
   
-
 	  	google.charts.load('current', {packages: ['corechart', 'bar']});
 		google.charts.setOnLoadCallback(drawVisualization);
-
-
-
 
 		function drawVisualization() {
 
@@ -301,13 +263,10 @@ $occtable .= "
         data.addColumn('string', 'name');
         data.addColumn('number', 'Quantity');
 
-
 <?php echo $add_rows2 ?>  
-
 
 		data.sort({column: 1, desc: false});
 		
-
       	var options = {
         title: 'Activities in hours',
         chartArea: {width: '60%',},
@@ -323,9 +282,6 @@ $occtable .= "
 
         },
 
-        
-
-
         annotation:{
         1:{
 
@@ -336,8 +292,6 @@ $occtable .= "
       	chart.draw(data, options);
 
     };
-
-
 	</script>
 
 
@@ -381,9 +335,7 @@ $occtable .= "
 
 </head>
 
-
 <body>
-
 
 <!--This is to display the message after a query has been processed, also it says that if the variable is empty do not echo. By merging all of the variables into one and echoing it, it only display which one has data and does not display error messages saying the variable is empty-->
 <?php
@@ -391,27 +343,24 @@ $occtable .= "
 if(!empty($statusmessage)) {
 
 echo $statusmessage;
-
 }
 ?>
 
-<div class='row-fluid'>
+<div class="row-fluid">
 
-	<div class='span4' style="border:0px purple solid;" >
+	<div class="span4" style="border:0px purple solid;" >
 
 		<div id="chart_div2" style="height:500px;"></div>
 
 	</div>
 
-
-	<div class='span4' style="border:0px black solid;" >
+	<div class="span4" style="border:0px black solid;" >
 
 		<div id="chart_div3" style="height:500px;"></div>
 		
 	</div>
 
-
-	<div class='span4' style="border:0px grey solid;" >
+	<div class="span4" style="border:0px grey solid;" >
 				
 		<div id="chart_div" style="height:500px;"></div>
 
@@ -420,8 +369,7 @@ echo $statusmessage;
 </div>
 
 
-
-	<h2>This is the information from the server</h2>
+<h2>This is the information from the server</h2>
 
 <?php echo $acttable ?>	
 
@@ -431,7 +379,7 @@ echo $statusmessage;
 
 <br />
 
-<div class='row-fluid'>
+<div class="row-fluid">
 <div class="span6" style="border: 0px red solid;" >
 
 	<h3>Enter Information here to add Information</h3>
@@ -446,12 +394,9 @@ echo $statusmessage;
 
 			<input type="number" name="hours" placeholder="Hours" value="<?php echo $row['hours']; ?>">
 
-
 		<label for="Minutes">Minutes of said activity:</label>
 
 			<input type="number" name="minutes" min="0" max="59" placeholder="Minutes" value="<?php echo $row['minutes']; ?>">
-
-
 
 		<label for="personname">Pick your name:</label>
 
