@@ -42,8 +42,6 @@ while ($barrow = mysqli_fetch_assoc($barchartquery)) {
 
     $add_rows2 .= '
     data.addRow(["' . $barrow['activity'] . "  " . '", ' . $barrow['hours'] . ']);';
-
-
 };
 //This is the code for the BARCHART//END
 
@@ -100,7 +98,7 @@ $statusmessage =  "<h1 class='alert alert-danger alert-dismissable fade in'><a h
 //Query Status//END
 
 
-//break bweteen
+//break between
 
 
 //Data Grab for the first table//START
@@ -151,7 +149,7 @@ $acttable .= "
 //Data Grab for the first table//END
 
 
-//break bweteen tables 
+//break between tables 
 
 
 //Data Grab for the second table//START
@@ -204,7 +202,7 @@ $totaltable .= "
 //Data Grab for the second table//END
 
 
-//break bweteen tables 
+//break between tables 
 
 
 //Data Grab for the third table//START
@@ -312,7 +310,7 @@ $occtable .= "
 
       	var options = {
         title: 'Activities in hours',
-        chartArea: {width: '70%',},
+        chartArea: {width: '60%',},
         hAxis: {
         chartArea: {height: '70%',},
         title: 'Hours',
@@ -358,7 +356,7 @@ $occtable .= "
 
       	var options = {
         title: 'Peoples activities',
-        chartArea: {width: '70%',},
+        chartArea: {width: '60%',},
         hAxis: {
         chartArea: {height: '70%',},
         title: '# of Activities',
