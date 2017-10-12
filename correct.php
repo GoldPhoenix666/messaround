@@ -9,14 +9,14 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);} 
 
-$piechartquery = mysqli_query($conn, "SELECT *, (SUM(`hours`)* 100 / (SELECT SUM(hours) FROM `pieinfo`)) AS `percent` FROM `pieinfo` GROUP BY `dataid`");
+$piechartquery = mysqli_query($conn, "SELECT *, (SUM(`hours`)* 100 / (SELECT SUM(hours) FROM `personinfo`)) AS `percent` FROM `personinfo` GROUP BY `dataid`");
 
 $allinfopie = '';
 while ($pierow = mysqli_fetch_assoc($piechartquery)) {
     $allinfopie .= 'piedata.addRow(["' . $pierow['activity'] . "  " . $pierow['hours'] . " hours " .
     number_format((float)$pierow['percent'], 2, '.', '')  . "%" . '", ' . $pierow['hours'] . ']);';};
 
-$barchartquery = mysqli_query($conn, "SELECT * FROM `pieinfo`");
+$barchartquery = mysqli_query($conn, "SELECT * FROM `personinfo`");
 
 $activerows = '';
 while ($barrow = mysqli_fetch_assoc($barchartquery)) {
@@ -48,7 +48,7 @@ if(!empty($_GET['status6'])) {
 $statusmessage =  '<h1 class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Infomation Unaltered!<p style="text-decoration:underline; font-size:20px;">Information has not been altered</p></h1>';}
 
 //Data Grab for the first table//START
-$activitydata = mysqli_query($conn, "SELECT * FROM `pieinfo` LEFT JOIN `person` ON `pieinfo`.`personid` = `person`.`personid` ORDER BY `personname` ASC, `activity` ASC");
+$activitydata = mysqli_query($conn, "SELECT * FROM `personinfo` LEFT JOIN `personname` ON `personinfo`.`personid` = `personname`.`personid` ORDER BY `personname` ASC, `activity` ASC");
 
 $activitytable = '
 <div class="row-fluid">
@@ -83,7 +83,7 @@ $activitytable .=  '
 $activitytable .= '</table></div>';
 
 //Data Grab for the second table//START
-$peopledata = mysqli_query($conn, "SELECT `person`.`personid`, `personname`, IFNULL(SUM(`hours`), 0) as 'hours', IFNULL(SUM(`minutes`), 0) as 'minutes', IFNULL(COUNT(`activity`), 0) as 'activity' FROM `person` LEFT JOIN `pieinfo` ON `person`.`personid` = `pieinfo`.`personid` GROUP BY `personname` ORDER BY `activity` DESC ");
+$peopledata = mysqli_query($conn, "SELECT `personname`.`personid`, `personname`, IFNULL(SUM(`hours`), 0) as 'hours', IFNULL(SUM(`minutes`), 0) as 'minutes', IFNULL(COUNT(`activity`), 0) as 'activity' FROM `personname` LEFT JOIN `personinfo` ON `personname`.`personid` = `personinfo`.`personid` GROUP BY `personname` ORDER BY `activity` DESC ");
 
 $peoplechart = "";
 
@@ -116,7 +116,7 @@ namechartdata.addRow(["' . $row['personname'] . "  " . '", ' . $row['activity'] 
 $peopletable .= '</table></div>';
 
 //Data Grab for the third table//START
-$occurrencedata = mysqli_query($conn, "SELECT `activity`, COUNT(`activity`) AS MOST_FREQUENT FROM `pieinfo` GROUP BY `activity` ORDER BY COUNT(`activity`) DESC");
+$occurrencedata = mysqli_query($conn, "SELECT `activity`, COUNT(`activity`) AS MOST_FREQUENT FROM `personinfo` GROUP BY `activity` ORDER BY COUNT(`activity`) DESC");
 
 $occurrencetable = '
 <div class="span4" style="border:0px green solid;" >
@@ -266,7 +266,7 @@ echo $statusmessage;}
 			<select name="personid">
 
 				<?php
-				$sql = mysqli_query($conn, "SELECT * FROM `person`");
+				$sql = mysqli_query($conn, "SELECT * FROM `personname`");
 				$row = mysqli_num_rows($sql);
 				while ($row = mysqli_fetch_array($sql)){
 				echo "<option value='" . $row['personid'] . "'>". $row['personname']  . "</option>";
