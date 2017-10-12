@@ -86,7 +86,7 @@ $datagrab = mysqli_query($conn, "SELECT * FROM `pieinfo` LEFT JOIN `person` ON `
 $acttable = "
 <div class=\"row-fluid\">
 	<div class=\"span4\" style=\"border:0px blue solid;\" >
-		<table class=\"table-hover align-self-start \">
+		<table class=\"table-hover align-self-start \" style=\"float: none; margin: 0 auto;\">
 			<tr>
 				<th>Name</th>
 				<th>Hours</th>
@@ -134,7 +134,7 @@ $addsecbar = "";
 
 $totaltable = "
 <div class=\"span4\" style=\"border:0px orange solid;\" >
-	<table class=\"table-hover\">
+	<table class=\"table-hover\" style=\"float: none; margin: 0 auto;\">
 		<tr>
 			<th>Name</th>
 			<th>Total Hours</th>
@@ -177,8 +177,8 @@ $totaltable .= "
 $threecharm = mysqli_query($conn, "SELECT `activity`, COUNT(`activity`) AS MOST_FREQUENT FROM `pieinfo` GROUP BY `activity` ORDER BY COUNT(`activity`) DESC");
 
 $occtable = "
-<div class=\"span4\" style=\"border:0px green solid;\" >
-	<table class=\"table-hover\">
+<div class=\"span4\" style=\"border:1px green solid;\" >
+	<table class=\"table-hover\" style=\"float: none; margin: 0 auto;\" >
 		<tr>
 			<th>Activity</th>
 			<th>Occurrence</th>
@@ -346,6 +346,8 @@ echo $statusmessage;
 }
 ?>
 
+<h2 style="text-align:center; text-decoration:underline;" >This is the information from the server</h2>
+
 <div class="row-fluid">
 
 	<div class="span4" style="border:0px purple solid;" >
@@ -368,9 +370,6 @@ echo $statusmessage;
 
 </div>
 
-
-<h2>This is the information from the server</h2>
-
 <?php echo $acttable ?>	
 
 <?php echo $totaltable ?>
@@ -380,11 +379,11 @@ echo $statusmessage;
 <br />
 
 <div class="row-fluid">
-<div class="span6" style="border: 0px red solid;" >
+<div class="span6" style="border: 0px red solid; text-align: center;">
 
 	<h3>Enter Information here to add Information</h3>
 
-	<form action="newentry.php" method="post" >
+	<form action="newentry.php" method="post" style="float: none; margin: 0 auto;" >
 
 		<label for="Activity">Enter your activity:</label>
 
@@ -411,26 +410,29 @@ echo $statusmessage;
 
  			</select>
 
-		<button type="submit" style="margin-top:-10px;" class="btn btn-success btn-small">Add</button>
+			<br />
 
-		<br />
-		<br />
-		<br />
-		<br />
-		<br /> 
+ 			<br />
+
+		<button type="submit" style="margin-top:-10px;" class="btn btn-success btn-small">Add</button>
 
 	</form>
 
 </div>
 
-<div class="span6" style="border: 0px red solid; ">
-	<h3>Use this form to add a new name</h3>
+<div class="span6" style="border: 0px red solid;">
 
-	<form action="addname.php" method="post">
+	<form action="addname.php" method="post" style="float: none; margin: 0 auto; text-align: center;">
+
+		<h3>Use this form to add a new name</h3>
 		
 		<label for="Newname" >Add a new user:</label>
 
 			<input type="text" name="personname" placeholder="Name" value="<?php echo $row['personname'] ?>" />
+
+			<br />
+
+			<br />
 
  		<button type="submit" style="margin-top:-10px;" class="btn btn-success btn-small">Add</button>
 
