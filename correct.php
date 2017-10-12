@@ -177,7 +177,7 @@ $totaltable .= "
 $threecharm = mysqli_query($conn, "SELECT `activity`, COUNT(`activity`) AS MOST_FREQUENT FROM `pieinfo` GROUP BY `activity` ORDER BY COUNT(`activity`) DESC");
 
 $occtable = "
-<div class=\"span4\" style=\"border:1px green solid;\" >
+<div class=\"span4\" style=\"border:0px green solid;\" >
 	<table class=\"table-hover\" style=\"float: none; margin: 0 auto;\" >
 		<tr>
 			<th>Activity</th>
