@@ -10,13 +10,13 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
 
-$piechartquery = mysqli_query($conn, "SELECT *, (SUM(`hours`)* 100 / (SELECT SUM(hours) FROM `personactivities`)) AS `percent` FROM `personactivities` GROUP BY `dataid`");
+$piechartquery = mysqli_query($conn, "SELECT *, ROUND(SUM(`hours`)* 100 / (SELECT SUM(`hours`) FROM `personactivities`), 2)  AS `percent` FROM `personactivities` GROUP BY `dataid`");
 
-$allinfopie = '';
-while ($pierow = mysqli_fetch_assoc($piechartquery)) {
-    $allinfopie .= 'piedata.addRow(["' . $pierow['activity'] . "  " . $pierow['hours'] . " hours " .
-    number_format((float)$pierow['percent'], 2, '.', '')  . "%" . '", ' . $pierow['hours'] . ']);';
-};
+$personactivitiesdata = '';
+while ($row = mysqli_fetch_assoc($piechartquery)) {
+    $personactivitiesdata .= 'piedata.addRow(["' . $row['activity'] . "  " . $row['hours'] . " hours " .
+    $row['percent'] . "%" . '", ' . $row['hours'] . ']);';
+}
 
 $barchartquery = mysqli_query($conn, "SELECT * FROM `personactivities`");
 
@@ -26,8 +26,8 @@ while ($row = mysqli_fetch_assoc($barchartquery)) {
 }
 
 //If the GET command is in the URL display this message
-if(!empty($_GET['status1'])) {
-	    $message = mysqli_real_escape_string($conn, $_GET['status1']);
+/*if(!empty($_GET['status1'])) {
+	$message = mysqli_real_escape_string($conn, $_GET['status1']);
 $statusmessage = '<h1 class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Update Successful!<p style="text-decoration:underline; font-size:20px;">Information has been updated</p></h1>';
 }
 
@@ -54,6 +54,36 @@ $statusmessage =  '<h1 class="alert alert-danger alert-dismissable fade in"><a h
 if(!empty($_GET['status6'])) {
     $message = mysqli_real_escape_string($conn, $_GET['status6']);
 $statusmessage =  '<h1 class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Infomation Unaltered!<p style="text-decoration:underline; font-size:20px;">Information has not been altered</p></h1>';
+}*/
+
+switch ($message) {
+	case mysqli_real_escape_string($conn, $_GET['status1']):
+	$statusmessage = '<h1 class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Update Successful!<p style="text-decoration:underline; font-size:20px;">Information has been updated</p></h1>';
+		break;
+
+	case mysqli_real_escape_string($conn, $_GET['status2']):
+	$statusmessage = '<h1 class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>New Activity Added!<p style="text-decoration:underline; font-size:20px;">Information has been added</p></h1>';
+		break;
+	
+	case mysqli_real_escape_string($conn, $_GET['status3']):
+	$statusmessage =  '<h1 class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Record Deleted!<p style="text-decoration:underline; font-size:20px;">Information has been deleted</p></h1>';
+		break;
+
+	case mysqli_real_escape_string($conn, $_GET['status4']):
+	$statusmessage =  '<h1 class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Update Unsuccessful!<p style="text-decoration:underline; font-size:20px;">Information has not been updated</p></h1>';
+			break;	
+
+	case mysqli_real_escape_string($conn, $_GET['status5']):
+	$statusmessage =  '<h1 class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Entry Not Added!<p style="text-decoration:underline; font-size:20px;">Information has not been added</p></h1>';
+		break;
+
+	case mysqli_real_escape_string($conn, $_GET['status6']):
+	$statusmessage =  '<h1 class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Infomation Unaltered!<p style="text-decoration:underline; font-size:20px;">Information has not been altered</p></h1>';
+		break;
+
+	default:
+		echo "something went wrong";
+		break;
 }
 
 //Data Grab for the first table//START
@@ -177,7 +207,7 @@ $occurrencetable .= "</table></div></div>";
 		piedata.addColumn('string', 'time');
 		piedata.addColumn('number', 'hours');
 
-<?php echo $allinfopie ?>
+<?php echo $personactivitiesdata ?>
 
 		var options = {title: 'List of all Infomation', sliceVisibilityThreshold: 0};
 
@@ -234,7 +264,6 @@ $occurrencetable .= "</table></div></div>";
 </head>
 
 <body>
-<!--This is to display the message after a query has been processed, also it says that if the variable is empty do not echo. By merging all of the variables into one and echoing it, it only display which one has data and does not display error messages saying the variable is empty-->
 <?php
 if(!empty($statusmessage)) {
 echo $statusmessage;}
