@@ -290,8 +290,12 @@ $occtable .= "
 
 	<script type="text/javascript">
   
+
 	  	google.charts.load('current', {packages: ['corechart', 'bar']});
 		google.charts.setOnLoadCallback(drawVisualization);
+
+
+
 
 		function drawVisualization() {
 
@@ -301,6 +305,10 @@ $occtable .= "
 
 
 <?php echo $add_rows2 ?>  
+
+
+		data.sort({column: 1, desc: false});
+		
 
       	var options = {
         title: 'Activities in hours',
@@ -314,7 +322,11 @@ $occtable .= "
         vAxis: {
         title: 'Activity',
         direction:'1'
+
         },
+
+        
+
 
         annotation:{
         1:{
@@ -324,7 +336,10 @@ $occtable .= "
           }}};
       	var chart = new google.visualization.BarChart(document.getElementById('chart_div2'));
       	chart.draw(data, options);
+
     };
+
+
 	</script>
 
 
