@@ -19,23 +19,12 @@ $hours = mysqli_real_escape_string($conn, $_POST['hours']);
 $minutes = mysqli_real_escape_string($conn, $_POST['minutes']);
 $personid = mysqli_real_escape_string($conn, $_POST['personid']);
 
-
-
 $datainsert = mysqli_query($conn, "
 UPDATE `personactivities` SET `activity` = '$activity', `hours` = '$hours', `minutes` = '$minutes', `dataid` = '$dataid', `personid` = '$personid' WHERE `personactivities`.`dataid` ='$dataid'");
 
-
 if ($datainsert) {
 	header('location: correct.php?status1=1');
-
 } else {
 	header('location: correct.php?status4=4');
-
 }
-
-
-
-
-
-
 ?>
