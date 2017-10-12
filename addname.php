@@ -17,7 +17,7 @@ if ($conn->connect_error) {
 $personname = mysqli_real_escape_string($conn, $_POST['personname']);
 
 
-$datainsert = mysqli_query($conn, "INSERT INTO `person` (`personname`) VALUES ('$personname') ");
+$datainsert = mysqli_query($conn, "INSERT INTO `personname` (`personname`) VALUES ('$personname') ");
 
 
 //var_dump("INSERT INTO `person` (`personname`) VALUES ('$personname') ");

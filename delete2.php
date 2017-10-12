@@ -16,9 +16,9 @@ if ($conn->connect_error) {
 $personid = mysqli_real_escape_string($conn, $_POST['personid']);
 
 
-$datainsert = mysqli_query($conn, "DELETE FROM `person` WHERE `person`.`personid` = '$personid' ");
+$datainsert = mysqli_query($conn, "DELETE FROM `personname` WHERE `personname`.`personid` = '$personid' ");
 
-var_dump("DELETE FROM `person` WHERE `person`.`personid` = '$personid' ");
+var_dump("DELETE FROM `personname` WHERE `personname`.`personid` = '$personid' ");
 
 if ($datainsert) {
     echo "New record created successfully";

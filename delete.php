@@ -16,7 +16,7 @@ if ($conn->connect_error) {
 $dataid = mysqli_real_escape_string($conn, $_POST['dataid']);
 
 
-$datainsert = mysqli_query($conn, "DELETE FROM `pieinfo` WHERE `pieinfo`.`dataid` = '$dataid' ");
+$datainsert = mysqli_query($conn, "DELETE FROM `personactivities` WHERE `personactivities`.`dataid` = '$dataid' ");
 
 
 

@@ -19,7 +19,7 @@ if ($conn->connect_error) {
 $dataid = mysqli_real_escape_string($conn, $_POST['dataid']);
 
 
-$datagrab = mysqli_query($conn, "SELECT * FROM `pieinfo` WHERE `dataid` = '$dataid'");
+$datagrab = mysqli_query($conn, "SELECT * FROM `personactivities` WHERE `dataid` = '$dataid'");
 
 
 $activityinfo = mysqli_fetch_assoc($datagrab);
@@ -87,7 +87,7 @@ $activityinfo = mysqli_fetch_assoc($datagrab);
 
 
 
-							$sql = mysqli_query($conn, "SELECT * FROM `person` WHERE `personid` = ' " . $activityinfo['personid'] . " '");
+							$sql = mysqli_query($conn, "SELECT * FROM `personname` WHERE `personid` = ' " . $activityinfo['personid'] . " '");
 							$row2 = mysqli_num_rows($sql);
 							while ($row2 = mysqli_fetch_array($sql)){
 							echo "<td>" . $row2['personname'] . "</td>";
@@ -133,7 +133,7 @@ $activityinfo = mysqli_fetch_assoc($datagrab);
 					<select name="personid">
 
 						<?php
-							$sql = mysqli_query($conn, "SELECT * FROM `person`");
+							$sql = mysqli_query($conn, "SELECT * FROM `personname`");
 							$row = mysqli_num_rows($sql);
 							while ($row = mysqli_fetch_array($sql)){
 

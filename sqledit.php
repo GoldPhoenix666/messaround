@@ -22,7 +22,7 @@ $personid = mysqli_real_escape_string($conn, $_POST['personid']);
 
 
 $datainsert = mysqli_query($conn, "
-UPDATE pieinfo SET `activity` = '$activity', `hours` = '$hours', `minutes` = '$minutes', `dataid` = '$dataid', `personid` = '$personid' WHERE `pieinfo`.`dataid` ='$dataid'");
+UPDATE `personactivities` SET `activity` = '$activity', `hours` = '$hours', `minutes` = '$minutes', `dataid` = '$dataid', `personid` = '$personid' WHERE `personactivities`.`dataid` ='$dataid'");
 
 
 if ($datainsert) {
