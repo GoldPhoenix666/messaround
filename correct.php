@@ -17,7 +17,6 @@ if ($conn->connect_error) {
 //THIS IS CODE FOR THE PIECHART//START
 $piechartquery = mysqli_query($conn, "SELECT *, (SUM(`hours`)* 100 / (SELECT SUM(hours) FROM `pieinfo`)) AS `percent` FROM `pieinfo` GROUP BY `dataid`");
 
-
 $add_rows = '';
 while ($pierow = mysqli_fetch_assoc($piechartquery)) {
     $add_rows .= 'data.addRow(["' . $pierow['activity'] . "  " . $pierow['hours'] . " hours " .
@@ -29,7 +28,6 @@ while ($pierow = mysqli_fetch_assoc($piechartquery)) {
 
 //This is the code for the BARCHART//START
 $barchartquery = mysqli_query($conn, "SELECT * FROM `pieinfo`");
-
 
 $add_rows2 = '';
 while ($barrow = mysqli_fetch_assoc($barchartquery)) {
