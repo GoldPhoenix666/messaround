@@ -254,7 +254,6 @@ $occtable .= "
 
 	<script type="text/javascript">
   
-	  	google.charts.load('current', {packages: ['corechart', 'bar']});
 		google.charts.setOnLoadCallback(drawVisualization);
 
 		function drawVisualization() {
@@ -297,7 +296,6 @@ $occtable .= "
 
 	<script type="text/javascript">
   
-	  	google.charts.load('current', {packages: ['corechart', 'bar']});
 		google.charts.setOnLoadCallback(drawVisualization);
 
 		function drawVisualization() {
