@@ -30,68 +30,47 @@ while ($row = mysqli_fetch_assoc($barchartquery)) {
 	$message = mysqli_real_escape_string($conn, $_GET['status1']);
 $statusmessage = '<h1 class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Update Successful!<p style="text-decoration:underline; font-size:20px;">Information has been updated</p></h1>';
 }
-
-if(!empty($_GET['status2'])) {
-    $message = mysqli_real_escape_string($conn, $_GET['status2']);
-$statusmessage = '<h1 class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>New Activity Added!<p style="text-decoration:underline; font-size:20px;">Information has been added</p></h1>';
-}
-
-if(!empty($_GET['status3'])) {
-    $message = mysqli_real_escape_string($conn, $_GET['status3']);
-$statusmessage =  '<h1 class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Record Deleted!<p style="text-decoration:underline; font-size:20px;">Information has been deleted</p></h1>';
-}
-
-if(!empty($_GET['status4'])) {
-    $message = mysqli_real_escape_string($conn, $_GET['status4']);
-$statusmessage =  '<h1 class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Update Unsuccessful!<p style="text-decoration:underline; font-size:20px;">Information has not been updated</p></h1>';
-}
-
-if(!empty($_GET['status5'])) {
-    $message = mysqli_real_escape_string($conn, $_GET['status5']);
-$statusmessage =  '<h1 class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Entry Not Added!<p style="text-decoration:underline; font-size:20px;">Information has not been added</p></h1>';
-}
-
-if(!empty($_GET['status6'])) {
-    $message = mysqli_real_escape_string($conn, $_GET['status6']);
-$statusmessage =  '<h1 class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Infomation Unaltered!<p style="text-decoration:underline; font-size:20px;">Information has not been altered</p></h1>';
 }*/
 
-switch ($message) {
-	case mysqli_real_escape_string($conn, $_GET['status1']):
-	$statusmessage = '<h1 class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Update Successful!<p style="text-decoration:underline; font-size:20px;">Information has been updated</p></h1>';
+
+
+switch (true) {
+	case $_GET['status1']:
+	echo '<h1 class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Update Successful!<p style="text-decoration:underline; font-size:20px;">Information has been updated</p></h1>';
 		break;
 
-	case mysqli_real_escape_string($conn, $_GET['status2']):
-	$statusmessage = '<h1 class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>New Activity Added!<p style="text-decoration:underline; font-size:20px;">Information has been added</p></h1>';
+	case $_GET['status2']:
+	echo '<h1 class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>New Activity Added!<p style="text-decoration:underline; font-size:20px;">Information has been added</p></h1>';
 		break;
 	
-	case mysqli_real_escape_string($conn, $_GET['status3']):
-	$statusmessage =  '<h1 class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Record Deleted!<p style="text-decoration:underline; font-size:20px;">Information has been deleted</p></h1>';
+	case $_GET['status3']:
+	echo '<h1 class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Record Deleted!<p style="text-decoration:underline; font-size:20px;">Information has been deleted</p></h1>';
 		break;
 
-	case mysqli_real_escape_string($conn, $_GET['status4']):
-	$statusmessage =  '<h1 class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Update Unsuccessful!<p style="text-decoration:underline; font-size:20px;">Information has not been updated</p></h1>';
-			break;	
+	case $_GET['status4']:
+	echo '<h1 class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Update Unsuccessful!<p style="text-decoration:underline; font-size:20px;">Information has not been updated</p></h1>';
+		break;	
 
-	case mysqli_real_escape_string($conn, $_GET['status5']):
-	$statusmessage =  '<h1 class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Entry Not Added!<p style="text-decoration:underline; font-size:20px;">Information has not been added</p></h1>';
+	case $_GET['status5']:
+	echo '<h1 class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Entry Not Added!<p style="text-decoration:underline; font-size:20px;">Information has not been added</p></h1>';
 		break;
 
-	case mysqli_real_escape_string($conn, $_GET['status6']):
-	$statusmessage =  '<h1 class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Infomation Unaltered!<p style="text-decoration:underline; font-size:20px;">Information has not been altered</p></h1>';
+	case $_GET['status6']:
+	echo '<h1 class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Infomation Unaltered!<p style="text-decoration:underline; font-size:20px;">Information has not been altered</p></h1>';
 		break;
 
 	default:
 		echo "something went wrong";
 		break;
-}
+	}
+
 
 //Data Grab for the first table//START
 $activitydata = mysqli_query($conn, "SELECT * FROM `personactivities` LEFT JOIN `personname` ON `personactivities`.`personid` = `personname`.`personid` ORDER BY `personname` ASC, `activity` ASC");
 
 $activitytable = '<div class="row-fluid">
 	<div class="span4" style="border:0px blue solid;" >
-		<table class="table-hover align-self-start " style="float: none; margin: 0 auto;">
+		<table class="table table-bordered table-hover align-self-start " style="float: none; margin: 0 auto;">
 			<tr>
 				<th>Name</th><th>Hours</th><th>Minutes</th><th>Activity</th><th>Delete</th><th>Edit</th>
 			</tr>';
@@ -125,7 +104,7 @@ $peopledata = mysqli_query($conn, "SELECT `personname`.`personid`, `personname`,
 $peoplechart = "";
 
 $peopletable = '<div class="span4" style="border:0px orange solid;" >
-	<table class="table-hover" style="float: none; margin: 0 auto;">
+	<table class="table table-bordered table-hover" style="float: none; margin: 0 auto;">
 		<tr>
 			<th>Name</th><th>Total Hours</th><th>Total Minutes</th><th># of Activities</th><th>Delete</th>
 		</tr>';
@@ -156,7 +135,7 @@ $occurrencedata = mysqli_query($conn, "SELECT `activity`, COUNT(`activity`) AS M
 
 $occurrencetable = '
 <div class="span4" style="border:0px green solid;" >
-	<table class="table-hover" style="float: none; margin: 0 auto;" >
+	<table class="table table-bordered table-hover" style="float: none; margin: 0 auto;" >
 		<tr>
 			<th>Activity</th>
 			<th>Occurrence</th>
@@ -186,12 +165,6 @@ $occurrencetable .= "</table></div></div>";
 
 		body{
 			padding: 5px;
-		}
-
-		table, th, td{
-			border: 1px solid black;
-			border-collapse: collapse;
-			text-align: center;
 		}
 
 	</style>
@@ -261,6 +234,17 @@ $occurrencetable .= "</table></div></div>";
 		};
 	</script>
 
+	<script type="text/javascript">
+		function empty() {
+    var x;
+    x = document.getElementById("input-check").value;
+    if (x == "") {
+        alert("Please fill in all entries");
+        return false;
+    };
+}
+	</script>
+
 </head>
 
 <body>
@@ -293,7 +277,7 @@ echo $statusmessage;}
 	<h3>Add Information here</h3>
 	<form action="newentry.php" method="post" style="float: none; margin: 0 auto;" >
 		<label>Activity:</label>
-			<input type="text" name="activity" value="">
+			<input type="text" name="activity" value="" id="input-check" >
 		<label>Hours:</label>
 			<input type="number" name="hours" value="">
 		<label>Minutes:</label>
@@ -310,7 +294,7 @@ echo $statusmessage;}
 
  			</select>
 			<br />
-		<button type="submit" style="margin-top:-10px;" class="btn btn-success btn-small">Add</button>
+		<button type="submit" style="margin-top:-10px;" onClick="return empty()" class="btn btn-success btn-small">Add</button>
 	</form>
 </div>
 
