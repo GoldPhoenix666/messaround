@@ -25,18 +25,9 @@ while ($row = mysqli_fetch_assoc($barchartquery)) {
     $activerows .= 'activechartdata.addRow(["' . $row['activity'] . "  " . '", ' . $row['hours'] . ']);';
 }
 
-//If the GET command is in the URL display this message
-/*if(!empty($_GET['status1'])) {
-	$message = mysqli_real_escape_string($conn, $_GET['status1']);
-$statusmessage = '<h1 class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Update Successful!<p style="text-decoration:underline; font-size:20px;">Information has been updated</p></h1>';
-}
-}*/
-
-
-
 switch (true) {
 	case isset($_GET['status1']):
-	echo '<h1 class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Update Successful!<p style="text-decoration:underline; font-size:20px;">Information has been updated</p></h1>';
+	$message = '<h1 class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Update Successful!<p style="text-decoration:underline; font-size:20px;">Information has been updated</p></h1>';
 		break;
 
 	case isset($_GET['status2']):
@@ -60,10 +51,9 @@ switch (true) {
 		break;
 
 	default:
-		echo "something went wrong";
+		echo "";
 		break;
-	}
-
+}
 
 //Data Grab for the first table//START
 $activitydata = mysqli_query($conn, "SELECT * FROM `personactivities` LEFT JOIN `personname` ON `personactivities`.`personid` = `personname`.`personid` ORDER BY `personname` ASC, `activity` ASC");
@@ -249,6 +239,10 @@ $occurrencetable .= "</table></div></div>";
 
 <body>
 <?php
+echo $message;
+?>
+
+<?php
 if(!empty($statusmessage)) {
 echo $statusmessage;}
 ?>
@@ -309,7 +303,5 @@ echo $statusmessage;}
 	</form>
 </div>
 </div>
-
 </body>
-
 </html>
