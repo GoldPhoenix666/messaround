@@ -239,14 +239,10 @@ $occurrencetable .= "</table></div></div>";
 
 <body>
 <?php
+if (isset($message)) {
 echo $message;
+}
 ?>
-
-<?php
-if(!empty($statusmessage)) {
-echo $statusmessage;}
-?>
-
 <h2 style="text-align:center; text-decoration:underline;" >This is the information from the server</h2>
 <div class="row-fluid">
 	<div class="span4" style="border:0px purple solid;" >
