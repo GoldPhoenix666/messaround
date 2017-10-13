@@ -35,27 +35,27 @@ $statusmessage = '<h1 class="alert alert-success alert-dismissable fade in"><a h
 
 
 switch (true) {
-	case $_GET['status1']:
+	case isset($_GET['status1']):
 	echo '<h1 class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Update Successful!<p style="text-decoration:underline; font-size:20px;">Information has been updated</p></h1>';
 		break;
 
-	case $_GET['status2']:
+	case isset($_GET['status2']):
 	echo '<h1 class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>New Activity Added!<p style="text-decoration:underline; font-size:20px;">Information has been added</p></h1>';
 		break;
 	
-	case $_GET['status3']:
+	case isset($_GET['status3']):
 	echo '<h1 class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Record Deleted!<p style="text-decoration:underline; font-size:20px;">Information has been deleted</p></h1>';
 		break;
 
-	case $_GET['status4']:
+	case isset($_GET['status4']):
 	echo '<h1 class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Update Unsuccessful!<p style="text-decoration:underline; font-size:20px;">Information has not been updated</p></h1>';
 		break;	
 
-	case $_GET['status5']:
+	case isset($_GET['status5']):
 	echo '<h1 class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Entry Not Added!<p style="text-decoration:underline; font-size:20px;">Information has not been added</p></h1>';
 		break;
 
-	case $_GET['status6']:
+	case isset($_GET['status6']):
 	echo '<h1 class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Infomation Unaltered!<p style="text-decoration:underline; font-size:20px;">Information has not been altered</p></h1>';
 		break;
 
