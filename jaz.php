@@ -1,141 +1,3 @@
-<?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "piechart";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
-
-$piechartquery = mysqli_query($conn, "SELECT *, ROUND(SUM(`hours`)* 100 / (SELECT SUM(`hours`) FROM `personactivities`), 2)  AS `percent` FROM `personactivities` GROUP BY `dataid`");
-
-$personactivitiesdata = '';
-while ($row = mysqli_fetch_assoc($piechartquery)) {
-    $personactivitiesdata .= 'piedata.addRow(["' . $row['activity'] . "  " . $row['hours'] . " hours " .
-    $row['percent'] . "%" . '", ' . $row['hours'] . ']);';
-}
-
-$barchartquery = mysqli_query($conn, "SELECT * FROM `personactivities`");
-
-$activerows = '';
-while ($row = mysqli_fetch_assoc($barchartquery)) {
-    $activerows .= 'activechartdata.addRow(["' . $row['activity'] . "  " . '", ' . $row['hours'] . ']);';
-}
-
-switch (true) {
-	case isset($_GET['status1']):
-	$message = '<h1 class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Update Successful!<p style="text-decoration:underline; font-size:20px;">Information has been updated</p></h1>';
-		break;
-
-	case isset($_GET['status2']):
-	$message = '<h1 class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>New Activity Added!<p style="text-decoration:underline; font-size:20px;">Information has been added</p></h1>';
-		break;
-	
-	case isset($_GET['status3']):
-	$message = '<h1 class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Record Deleted!<p style="text-decoration:underline; font-size:20px;">Information has been deleted</p></h1>';
-		break;
-
-	case isset($_GET['status4']):
-	$message = '<h1 class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Update Unsuccessful!<p style="text-decoration:underline; font-size:20px;">Information has not been updated</p></h1>';
-		break;	
-
-	case isset($_GET['status5']):
-	$message = '<h1 class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Entry Not Added!<p style="text-decoration:underline; font-size:20px;">Information has not been added</p></h1>';
-		break;
-
-	case isset($_GET['status6']):
-	$message = '<h1 class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Infomation Unaltered!<p style="text-decoration:underline; font-size:20px;">Information has not been altered</p></h1>';
-		break;
-
-	default:
-		echo "";
-		break;
-}
-
-//Data Grab for the first table//START
-$activitydata = mysqli_query($conn, "SELECT * FROM `personactivities` LEFT JOIN `personname` ON `personactivities`.`personid` = `personname`.`personid` ORDER BY `personname` ASC, `activity` ASC");
-
-$activitytable = '<table class="table table-bordered table-hover" style="float: none; margin: 0 auto;">
-			<tr>
-				<th>Name</th><th>Hours</th><th>Minutes</th><th>Activity</th><th>Delete</th><th>Edit</th>
-			</tr>';
-
-while ($row = mysqli_fetch_assoc($activitydata)) {
-$activitytable .=  '<tr>
-	<td>' .$row['personname']. '</td>
-	<td>' .$row['hours']. '</td>
-	<td>' .$row['minutes']. '</td>
-	<td>' .$row['activity']. '</td>
-	<td>
-		<form action="delete.php" method="post">
-			<input type="hidden" name="dataid" value="'. $row['dataid'] .'" />
-			<input type="submit" style="margin-top:20px;" class="btn btn-default" value="Delete" name="delete" />
-		</form>
-	</td>
-	<td>
-		<form action="update.php" method="post">
-			<input type="hidden" name="dataid" value="'. $row['dataid'] .'" />
-			<input type="submit"  style="margin-top:20px;" class="btn btn-default" value="Update" name="update" />
-		</form>
-	</td>
-</tr>';
-}
-
-$activitytable .= '</table>';
-
-//Data Grab for the second table//START
-$peopledata = mysqli_query($conn, "SELECT `personname`.`personid`, `personname`, IFNULL(SUM(`hours`), 0) as 'hours', IFNULL(SUM(`minutes`), 0) as 'minutes', IFNULL(COUNT(`activity`), 0) as 'activity' FROM `personname` LEFT JOIN `personactivities` ON `personname`.`personid` = `personactivities`.`personid` GROUP BY `personname` ORDER BY `activity` DESC ");
-
-$peoplechart = "";
-
-$peopletable = '<table class="table table-bordered table-hover" style="float: none; margin: 0 auto;">
-		<tr>
-			<th>Name</th><th>Total Hours</th><th>Total Minutes</th><th># of Activities</th><th>Delete</th>
-		</tr>';
-
-while ($row = mysqli_fetch_assoc($peopledata)) {
-
-$peopletable .=  '<tr>
-	<td>' .$row['personname']. '</td>
-	<td>' .$row['hours']. '</td>
-	<td>' .$row['minutes']. '</td>
-	<td>' .$row['activity']. '</td>
-	<td>
-		<form action="delete2.php" method="post">
-			<input type="hidden" name="personid" value="'. $row['personid'] .'" />
-			<input type="submit" style="margin-top:20px;" class="btn btn-default" value="Delete" name="delete" />
-		</form>
-	</td>
-</tr>';
-
-$peoplechart .= '
-namechartdata.addRow(["' . $row['personname'] . "  " . '", ' . $row['activity'] . ']);';
-}
-
-$peopletable .= '</table>';
-
-//Data Grab for the third table//START
-$occurrencedata = mysqli_query($conn, "SELECT `activity`, COUNT(`activity`) AS MOST_FREQUENT FROM `personactivities` GROUP BY `activity` ORDER BY COUNT(`activity`) DESC");
-
-$occurrencetable = '<table class="table table-bordered table-hover" style="float: none; margin: 0 auto;" >
-		<tr>
-			<th>Activity</th>
-			<th>Occurrence</th>
-		</tr>';
-
-while ($row = mysqli_fetch_assoc($occurrencedata)) {
-$occurrencetable .= '
-<tr>
-	<td>' .$row['activity']. '</td>
-	<td>' .$row['MOST_FREQUENT']. '</td>
-</tr>';
-}
-
-$occurrencetable .= "</table>";
-?>
 <!DOCTYPE html>
 
 <html>
@@ -166,8 +28,7 @@ $occurrencetable .= "</table>";
 		piedata.addColumn('string', 'time');
 		piedata.addColumn('number', 'hours');
 
-<?php echo $personactivitiesdata ?>
-
+piedata.addRow(["Eating  1 hours 1.39%", 1]);piedata.addRow(["Sleeping  7 hours 9.72%", 7]);piedata.addRow(["Waiting  1 hours 1.39%", 1]);piedata.addRow(["Working  12 hours 16.67%", 12]);piedata.addRow(["Youtube  2 hours 2.78%", 2]);piedata.addRow(["newtest  2 hours 2.78%", 2]);piedata.addRow(["rtyt  9 hours 12.50%", 9]);piedata.addRow(["newtest  7 hours 9.72%", 7]);piedata.addRow(["eroo  14 hours 19.44%", 14]);piedata.addRow(["new  7 hours 9.72%", 7]);piedata.addRow(["calmdownthere  7 hours 9.72%", 7]);piedata.addRow(["nfjisuhfdo  3 hours 4.17%", 3]);
 		var options = {title: 'List of all Infomation', sliceVisibilityThreshold: 0};
 
 		var chart = new google.visualization.PieChart(document.getElementById('piedatadiv'));
@@ -184,7 +45,7 @@ $occurrencetable .= "</table>";
         activechartdata.addColumn('string', 'name');
         activechartdata.addColumn('number', 'Quantity');
 
-<?php echo $activerows ?>  
+activechartdata.addRow(["Eating  ", 1]);activechartdata.addRow(["Sleeping  ", 7]);activechartdata.addRow(["Waiting  ", 1]);activechartdata.addRow(["Working  ", 12]);activechartdata.addRow(["Youtube  ", 2]);activechartdata.addRow(["newtest  ", 2]);activechartdata.addRow(["rtyt  ", 9]);activechartdata.addRow(["newtest  ", 7]);activechartdata.addRow(["eroo  ", 14]);activechartdata.addRow(["new  ", 7]);activechartdata.addRow(["calmdownthere  ", 7]);activechartdata.addRow(["nfjisuhfdo  ", 3]);  
 
 		activechartdata.sort({column: 1, desc: false});
 		
@@ -208,7 +69,14 @@ $occurrencetable .= "</table>";
         namechartdata.addColumn('string', 'name');
         namechartdata.addColumn('number', 'Quantity');
     
-<?php echo $peoplechart ?>  
+
+namechartdata.addRow(["John  ", 6]);
+namechartdata.addRow(["Jill  ", 2]);
+namechartdata.addRow(["Django  ", 2]);
+namechartdata.addRow(["Jack  ", 1]);
+namechartdata.addRow(["newtest  ", 1]);
+namechartdata.addRow(["sdfsdfsdf  ", 0]);
+namechartdata.addRow(["empty  ", 0]);  
 
       	var options = {title: 'Peoples activities', chartArea: {width: '60%'},
       	hAxis: {
@@ -234,11 +102,6 @@ $occurrencetable .= "</table>";
 </head>
 
 <body>
-<?php
-if (isset($message)) {
-echo $message;
-}
-?>
 <h2 style="text-align:center; text-decoration:underline;" >This is the information from the server</h2>
 <div class="row">
 	<div class="span4" style="border:0px purple solid;" >
@@ -254,14 +117,347 @@ echo $message;
 
 <div class="row">	
 	<div class="span4">
-		<?php echo $activitytable ?>	
+		<table class="table table-bordered table-hover" style="float: none; margin: 0 auto;">
+			<tr>
+				<th>Name</th><th>Hours</th><th>Minutes</th><th>Activity</th><th>Delete</th><th>Edit</th>
+			</tr><tr>
+	<td>Django</td>
+	<td>14</td>
+	<td>5</td>
+	<td>eroo</td>
+	<td>
+		<form action="delete.php" method="post">
+			<input type="hidden" name="dataid" value="140" />
+			<input type="submit" style="margin-top:20px;" class="btn btn-default" value="Delete" name="delete" />
+		</form>
+	</td>
+	<td>
+		<form action="update.php" method="post">
+			<input type="hidden" name="dataid" value="140" />
+			<input type="submit"  style="margin-top:20px;" class="btn btn-default" value="Update" name="update" />
+		</form>
+	</td>
+</tr><tr>
+	<td>Django</td>
+	<td>9</td>
+	<td>52</td>
+	<td>rtyt</td>
+	<td>
+		<form action="delete.php" method="post">
+			<input type="hidden" name="dataid" value="119" />
+			<input type="submit" style="margin-top:20px;" class="btn btn-default" value="Delete" name="delete" />
+		</form>
+	</td>
+	<td>
+		<form action="update.php" method="post">
+			<input type="hidden" name="dataid" value="119" />
+			<input type="submit"  style="margin-top:20px;" class="btn btn-default" value="Update" name="update" />
+		</form>
+	</td>
+</tr><tr>
+	<td>Jack</td>
+	<td>12</td>
+	<td>31</td>
+	<td>Working</td>
+	<td>
+		<form action="delete.php" method="post">
+			<input type="hidden" name="dataid" value="4" />
+			<input type="submit" style="margin-top:20px;" class="btn btn-default" value="Delete" name="delete" />
+		</form>
+	</td>
+	<td>
+		<form action="update.php" method="post">
+			<input type="hidden" name="dataid" value="4" />
+			<input type="submit"  style="margin-top:20px;" class="btn btn-default" value="Update" name="update" />
+		</form>
+	</td>
+</tr><tr>
+	<td>Jill</td>
+	<td>2</td>
+	<td>36</td>
+	<td>newtest</td>
+	<td>
+		<form action="delete.php" method="post">
+			<input type="hidden" name="dataid" value="83" />
+			<input type="submit" style="margin-top:20px;" class="btn btn-default" value="Delete" name="delete" />
+		</form>
+	</td>
+	<td>
+		<form action="update.php" method="post">
+			<input type="hidden" name="dataid" value="83" />
+			<input type="submit"  style="margin-top:20px;" class="btn btn-default" value="Update" name="update" />
+		</form>
+	</td>
+</tr><tr>
+	<td>Jill</td>
+	<td>7</td>
+	<td>30</td>
+	<td>Sleeping</td>
+	<td>
+		<form action="delete.php" method="post">
+			<input type="hidden" name="dataid" value="2" />
+			<input type="submit" style="margin-top:20px;" class="btn btn-default" value="Delete" name="delete" />
+		</form>
+	</td>
+	<td>
+		<form action="update.php" method="post">
+			<input type="hidden" name="dataid" value="2" />
+			<input type="submit"  style="margin-top:20px;" class="btn btn-default" value="Update" name="update" />
+		</form>
+	</td>
+</tr><tr>
+	<td>John</td>
+	<td>1</td>
+	<td>20</td>
+	<td>Eating</td>
+	<td>
+		<form action="delete.php" method="post">
+			<input type="hidden" name="dataid" value="1" />
+			<input type="submit" style="margin-top:20px;" class="btn btn-default" value="Delete" name="delete" />
+		</form>
+	</td>
+	<td>
+		<form action="update.php" method="post">
+			<input type="hidden" name="dataid" value="1" />
+			<input type="submit"  style="margin-top:20px;" class="btn btn-default" value="Update" name="update" />
+		</form>
+	</td>
+</tr><tr>
+	<td>John</td>
+	<td>7</td>
+	<td>20</td>
+	<td>new</td>
+	<td>
+		<form action="delete.php" method="post">
+			<input type="hidden" name="dataid" value="143" />
+			<input type="submit" style="margin-top:20px;" class="btn btn-default" value="Delete" name="delete" />
+		</form>
+	</td>
+	<td>
+		<form action="update.php" method="post">
+			<input type="hidden" name="dataid" value="143" />
+			<input type="submit"  style="margin-top:20px;" class="btn btn-default" value="Update" name="update" />
+		</form>
+	</td>
+</tr><tr>
+	<td>John</td>
+	<td>7</td>
+	<td>7</td>
+	<td>newtest</td>
+	<td>
+		<form action="delete.php" method="post">
+			<input type="hidden" name="dataid" value="138" />
+			<input type="submit" style="margin-top:20px;" class="btn btn-default" value="Delete" name="delete" />
+		</form>
+	</td>
+	<td>
+		<form action="update.php" method="post">
+			<input type="hidden" name="dataid" value="138" />
+			<input type="submit"  style="margin-top:20px;" class="btn btn-default" value="Update" name="update" />
+		</form>
+	</td>
+</tr><tr>
+	<td>John</td>
+	<td>3</td>
+	<td>30</td>
+	<td>nfjisuhfdo</td>
+	<td>
+		<form action="delete.php" method="post">
+			<input type="hidden" name="dataid" value="158" />
+			<input type="submit" style="margin-top:20px;" class="btn btn-default" value="Delete" name="delete" />
+		</form>
+	</td>
+	<td>
+		<form action="update.php" method="post">
+			<input type="hidden" name="dataid" value="158" />
+			<input type="submit"  style="margin-top:20px;" class="btn btn-default" value="Update" name="update" />
+		</form>
+	</td>
+</tr><tr>
+	<td>John</td>
+	<td>1</td>
+	<td>15</td>
+	<td>Waiting</td>
+	<td>
+		<form action="delete.php" method="post">
+			<input type="hidden" name="dataid" value="3" />
+			<input type="submit" style="margin-top:20px;" class="btn btn-default" value="Delete" name="delete" />
+		</form>
+	</td>
+	<td>
+		<form action="update.php" method="post">
+			<input type="hidden" name="dataid" value="3" />
+			<input type="submit"  style="margin-top:20px;" class="btn btn-default" value="Update" name="update" />
+		</form>
+	</td>
+</tr><tr>
+	<td>John</td>
+	<td>2</td>
+	<td>12</td>
+	<td>Youtube</td>
+	<td>
+		<form action="delete.php" method="post">
+			<input type="hidden" name="dataid" value="5" />
+			<input type="submit" style="margin-top:20px;" class="btn btn-default" value="Delete" name="delete" />
+		</form>
+	</td>
+	<td>
+		<form action="update.php" method="post">
+			<input type="hidden" name="dataid" value="5" />
+			<input type="submit"  style="margin-top:20px;" class="btn btn-default" value="Update" name="update" />
+		</form>
+	</td>
+</tr><tr>
+	<td>newtest</td>
+	<td>7</td>
+	<td>59</td>
+	<td>calmdownthere</td>
+	<td>
+		<form action="delete.php" method="post">
+			<input type="hidden" name="dataid" value="157" />
+			<input type="submit" style="margin-top:20px;" class="btn btn-default" value="Delete" name="delete" />
+		</form>
+	</td>
+	<td>
+		<form action="update.php" method="post">
+			<input type="hidden" name="dataid" value="157" />
+			<input type="submit"  style="margin-top:20px;" class="btn btn-default" value="Update" name="update" />
+		</form>
+	</td>
+</tr></table>	
 	</div>
 	<div class="span4">
-		<?php echo $peopletable ?>
-	</div>
+		<table class="table table-bordered table-hover" style="float: none; margin: 0 auto;">
+		<tr>
+			<th>Name</th><th>Total Hours</th><th>Total Minutes</th><th># of Activities</th><th>Delete</th>
+		</tr><tr>
+	<td>John</td>
+	<td>21</td>
+	<td>104</td>
+	<td>6</td>
+	<td>
+		<form action="delete2.php" method="post">
+			<input type="hidden" name="personid" value="1" />
+			<input type="submit" style="margin-top:20px;" class="btn btn-default" value="Delete" name="delete" />
+		</form>
+	</td>
+</tr><tr>
+	<td>Jill</td>
+	<td>9</td>
+	<td>66</td>
+	<td>2</td>
+	<td>
+		<form action="delete2.php" method="post">
+			<input type="hidden" name="personid" value="3" />
+			<input type="submit" style="margin-top:20px;" class="btn btn-default" value="Delete" name="delete" />
+		</form>
+	</td>
+</tr><tr>
+	<td>Django</td>
+	<td>23</td>
+	<td>57</td>
+	<td>2</td>
+	<td>
+		<form action="delete2.php" method="post">
+			<input type="hidden" name="personid" value="4" />
+			<input type="submit" style="margin-top:20px;" class="btn btn-default" value="Delete" name="delete" />
+		</form>
+	</td>
+</tr><tr>
+	<td>Jack</td>
+	<td>12</td>
+	<td>31</td>
+	<td>1</td>
+	<td>
+		<form action="delete2.php" method="post">
+			<input type="hidden" name="personid" value="2" />
+			<input type="submit" style="margin-top:20px;" class="btn btn-default" value="Delete" name="delete" />
+		</form>
+	</td>
+</tr><tr>
+	<td>newtest</td>
+	<td>7</td>
+	<td>59</td>
+	<td>1</td>
+	<td>
+		<form action="delete2.php" method="post">
+			<input type="hidden" name="personid" value="36" />
+			<input type="submit" style="margin-top:20px;" class="btn btn-default" value="Delete" name="delete" />
+		</form>
+	</td>
+</tr><tr>
+	<td>sdfsdfsdf</td>
+	<td>0</td>
+	<td>0</td>
+	<td>0</td>
+	<td>
+		<form action="delete2.php" method="post">
+			<input type="hidden" name="personid" value="41" />
+			<input type="submit" style="margin-top:20px;" class="btn btn-default" value="Delete" name="delete" />
+		</form>
+	</td>
+</tr><tr>
+	<td>empty</td>
+	<td>0</td>
+	<td>0</td>
+	<td>0</td>
+	<td>
+		<form action="delete2.php" method="post">
+			<input type="hidden" name="personid" value="37" />
+			<input type="submit" style="margin-top:20px;" class="btn btn-default" value="Delete" name="delete" />
+		</form>
+	</td>
+</tr></table>	</div>
 	<div class="span4">
-		<?php echo $occurrencetable ?>
-	</div>
+		<table class="table table-bordered table-hover" style="float: none; margin: 0 auto;" >
+		<tr>
+			<th>Activity</th>
+			<th>Occurrence</th>
+		</tr>
+<tr>
+	<td>newtest</td>
+	<td>2</td>
+</tr>
+<tr>
+	<td>Waiting</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>Eating</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>calmdownthere</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>eroo</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>Working</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>Sleeping</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>nfjisuhfdo</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>new</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>rtyt</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>Youtube</td>
+	<td>1</td>
+</tr></table>	</div>
 </div>
 
 <br />
@@ -279,13 +475,7 @@ echo $message;
 		<label>Name:</label>
 			<select name="personid">
 
-				<?php
-				$newentry = mysqli_query($conn, "SELECT * FROM `personname`");
-				$row = mysqli_num_rows($newentry);
-				while ($row = mysqli_fetch_array($newentry)){
-				echo "<option value='" . $row['personid'] . "'>". $row['personname']  . "</option>";
-				};?>
-
+				<option value='1'>John</option><option value='2'>Jack</option><option value='3'>Jill</option><option value='4'>Django</option><option value='36'>newtest</option><option value='37'>empty</option><option value='41'>sdfsdfsdf</option>
  			</select>
 			<br />
 		<button type="submit" style="margin-top:-10px;" onClick="return empty()" class="btn btn-success btn-small">Add</button>
