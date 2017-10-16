@@ -1,12 +1,6 @@
 <?php
 include('connect.php');
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
-
 $userhourquery = mysqli_query($conn, "SELECT *, ROUND(SUM(`hours`)* 100 / (SELECT SUM(`hours`) FROM `personactivities`), 2)  AS `percent` FROM `personactivities` GROUP BY `dataid`");
 
 $personactivitiesdata = '';
