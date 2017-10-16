@@ -217,17 +217,6 @@ $occurrencetable .= "</table>";
 		};
 	</script>
 
-	<script type="text/javascript">
-		function empty() {
-    var x;
-    x = document.getElementById("input-check").value;
-    if (x == "") {
-        alert("Please fill in all entries");
-        return false;
-    };
-}
-	</script>
-
 </head>
 
 <body>
@@ -268,11 +257,11 @@ echo $message;
 	<h3>Add Information here</h3>
 	<form action="newentry.php" method="post" style="float: none; margin: 0 auto;" >
 		<label>Activity:</label>
-			<input type="text" name="activity" id="input-check" >
+			<input type="text" name="activity" required>
 		<label>Hours:</label>
-			<input type="number" name="hours">
+			<input type="number" name="hours" required>
 		<label>Minutes:</label>
-			<input type="number" name="minutes" min="0" max="59">
+			<input type="number" name="minutes" min="0" max="59" required>
 		<label>Name:</label>
 			<select name="personid">
 
@@ -285,7 +274,7 @@ echo $message;
 
  			</select>
 			<br />
-		<button type="submit" style="margin-top:-10px;" onClick="return empty()" class="btn btn-success btn-small">Add</button>
+		<button type="submit" style="margin-top:-10px;" class="btn btn-success btn-small">Add</button>
 	</form>
 </div>
 
@@ -293,7 +282,7 @@ echo $message;
 	<form action="addname.php" method="post" style="float: none; margin: 0 auto; text-align: center;">
 		<h3>Add User</h3>		
 		<label>Username:</label>
-			<input type="text" name="personname" />
+			<input type="text" name="personname" required />
 			<br />
  		<button type="submit" style="margin-top:-10px;" class="btn btn-success btn-small">Add</button>
 		<br />
