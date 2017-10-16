@@ -1,5 +1,5 @@
 <?php
-include('connect.php');
+include('C:\xampp\login\connect.php');
 
 $userhourquery = mysqli_query($conn, "SELECT *, ROUND(SUM(`hours`)* 100 / (SELECT SUM(`hours`) FROM `personactivities`), 2)  AS `percent` FROM `personactivities` GROUP BY `dataid`");
 
@@ -143,12 +143,12 @@ $occurrencetable .= "</table>";
   	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css">
     <script src="http://code.jquery.com/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
 	<style type="text/css">
 
 		body{
-			padding: 5px;
 		}
 
 
@@ -233,7 +233,8 @@ echo '<div class="alert alert-danger"><p>' . $error . '</p></div>';
 } 
 ?>
 
-<h2 style="text-align:center; text-decoration:underline;" >User information from the server</h2>
+<h2 style="text-align:center; text-decoration:underline;" >Populairty of Activities</h2>
+
 <div class="row-fluid">
 	<div class="span4" style="border:0px purple solid;" >
 		<div id="activitydiv" style="min-height:500px;"></div>
@@ -245,6 +246,7 @@ echo '<div class="alert alert-danger"><p>' . $error . '</p></div>';
 		<div id="piedatadiv" style="min-height:500px;"></div>
 	</div>
 </div>
+
 
 <div class="row-fluid">	
 	<div class="span4">
@@ -261,17 +263,17 @@ echo '<div class="alert alert-danger"><p>' . $error . '</p></div>';
 <br />
 
 <div class="row-fluid">
-<div class="span6" style="border: 0px red solid; text-align: center;">
-	<h3>Add Information here</h3>
-	<form action="newentry.php" method="post" style="float: none; margin: 0 auto;" >
-		<label>Activity:</label>
-			<input type="text" name="activity" required>
-		<label>Hours:</label>
-			<input type="number" name="hours" required>
-		<label>Minutes:</label>
-			<input type="number" name="minutes" min="0" max="59" required>
-		<label>Name:</label>
-			<select name="personid">
+	<div class="span6" style="border: 0px red solid; text-align: center;">
+		<h3>Add Information here</h3>
+		<form action="newentry.php" method="post" style="float: none; margin: 0 auto;" >
+			<label>Activity:</label>
+				<input type="text" name="activity" required>
+			<label>Hours:</label>
+					<input type="number" name="hours" required>
+			<label>Minutes:</label>
+				<input type="number" name="minutes" min="0" max="59" required>
+			<label>Name:</label>
+				<select name="personid">
 
 				<?php
 				$newentry = mysqli_query($conn, "SELECT * FROM `personname`");
@@ -280,11 +282,12 @@ echo '<div class="alert alert-danger"><p>' . $error . '</p></div>';
 				echo "<option value='" . $row['personid'] . "'>". $row['personname']  . "</option>";
 				};?>
 
- 			</select>
-			<br />
-		<button type="submit" style="margin-top:-10px;" class="btn btn-success btn-small">Add</button>
-	</form>
+ 				</select>
+				<br />
+			<button type="submit" style="margin-top:-10px;" class="btn btn-success btn-small">Add</button>
+		</form>
 </div>
+
 
 <div class="span6" style="border: 0px red solid;">
 	<form action="addname.php" method="post" style="float: none; margin: 0 auto; text-align: center;">
@@ -297,6 +300,7 @@ echo '<div class="alert alert-danger"><p>' . $error . '</p></div>';
 	</form>
 </div>
 </div>
+
 </body>
 
 </html>
