@@ -19,10 +19,10 @@ $personid = mysqli_real_escape_string($conn, $_POST['personid']);
 $datainsert = mysqli_query($conn, "INSERT INTO `personactivities` (`activity`, `hours`, `minutes`, `personid`) VALUES ('$activity', '$hours', '$minutes', '$personid') ");
 
 if ($datainsert) {
-    echo "New record created successfully" . mysqli_error($conn);
+ //   echo "New record created successfully" . mysqli_error($conn);
 	header('location: correct.php?status2=2');
 } else {
-    echo "<br /> Error: " . $datainsert . "<br>" . mysqli_error($conn);
+  //  echo "<br /> Error: " . $datainsert . "<br>" . mysqli_error($conn);
     header('location: correct.php?status5=5');
 }
 ?>

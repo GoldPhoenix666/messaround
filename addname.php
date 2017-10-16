@@ -15,10 +15,10 @@ $personname = mysqli_real_escape_string($conn, $_POST['personname']);
 $datainsert = mysqli_query($conn, "INSERT INTO `personname` (`personname`) VALUES ('$personname') ");
 
 if ($datainsert) {
-    echo "New record created successfully" . mysqli_error($conn);
+  //  echo "New record created successfully" . mysqli_error($conn);
 	header('location: correct.php?status2=2');
 } else {
-    echo "<br /> Error: " . $datainsert . "<br>" . mysqli_error($conn);
+   // echo "<br /> Error: " . $datainsert . "<br>" . mysqli_error($conn);
    	header('location: correct.php?status5=5');
 }
 ?>

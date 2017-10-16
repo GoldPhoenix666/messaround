@@ -13,10 +13,10 @@ $dataid = mysqli_real_escape_string($conn, $_POST['dataid']);
 $datainsert = mysqli_query($conn, "DELETE FROM `personactivities` WHERE `personactivities`.`dataid` = '$dataid' ");
 
 if ($datainsert) {
-    echo "New record created successfully";
+    //echo "New record created successfully";
     header('location: correct.php?status3=3');
 } else {
-    echo "Error: " . $datainsert . "<br>" . mysqli_error($conn);
+   // echo "Error: " . $datainsert . "<br>" . mysqli_error($conn);
     header('location: correct.php?status6=6');
 }
 ?>

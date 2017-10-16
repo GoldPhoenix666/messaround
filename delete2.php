@@ -15,10 +15,10 @@ $datainsert = mysqli_query($conn, "DELETE FROM `personname` WHERE `personname`.`
 var_dump("DELETE FROM `personname` WHERE `personname`.`personid` = '$personid' ");
 
 if ($datainsert) {
-    echo "New record created successfully";
+//echo "New record created successfully";
     header('location: correct.php?status3=3');
 } else {
-    echo "Error: " . $datainsert . "<br>" . mysqli_error($conn);
+   // echo "Error: " . $datainsert . "<br>" . mysqli_error($conn);
     header('location: correct.php?status6=6');
 }
 ?>
