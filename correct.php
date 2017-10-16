@@ -16,33 +16,41 @@ while ($row = mysqli_fetch_assoc($useractivityquery)) {
     $activerows .= 'activechartdata.addRow(["' . $row['activity'] . "  " . '", ' . $row['hours'] . ']);';
 }
 
-switch (true) {
-	case isset($_GET['status1']):
-	$message = '<h1 class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Update Successful!<p style="text-decoration:underline; font-size:20px;">Information has been updated</p></h1>';
+if (isset($_GET['status'])) {
+$statuscode = mysqli_real_escape_string($conn, $_GET['status']);
+} else {
+$statuscode = 0;	
+}
+
+$message = false;
+$error = false;
+
+switch ($statuscode) {
+	case 1:
+	$message = 'Update Successful! Information has been updated';
 		break;
 
-	case isset($_GET['status2']):
-	$message = '<h1 class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>New Activity Added!<p style="text-decoration:underline; font-size:20px;">Information has been added</p></h1>';
+	case 2:
+	$message = 'New Activity Added! Information has been added';
 		break;
 	
-	case isset($_GET['status3']):
-	$message = '<h1 class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Record Deleted!<p style="text-decoration:underline; font-size:20px;">Information has been deleted</p></h1>';
+	case 3:
+	$message = 'Record Deleted! Information has been deleted';
 		break;
 
-	case isset($_GET['status4']):
-	$message = '<h1 class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Update Unsuccessful!<p style="text-decoration:underline; font-size:20px;">Information has not been updated</p></h1>';
+	case 4:
+	$error = 'Update Unsuccessful! Information has not been updated';
 		break;	
 
-	case isset($_GET['status5']):
-	$message = '<h1 class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Entry Not Added!<p style="text-decoration:underline; font-size:20px;">Information has not been added</p></h1>';
+	case 5:
+	$error = 'Entry Not Added! Information has not been added';
 		break;
 
-	case isset($_GET['status6']):
-	$message = '<h1 class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Infomation Unaltered!<p style="text-decoration:underline; font-size:20px;">Information has not been altered</p></h1>';
+	case 6:
+	$error = 'Infomation Unaltered! Information has not been altered';
 		break;
 
 	default:
-		echo "";
 		break;
 }
 
@@ -214,11 +222,17 @@ $occurrencetable .= "</table>";
 </head>
 
 <body>
+
 <?php
-if (isset($message)) {
-echo $message;
-}
+if ($message) {
+echo '<div class="alert alert-success"><p> ' . $message . '</p></div>';
+} 
+
+if ($error) {
+echo '<div class="alert alert-danger"><p>' . $error . '</p></div>';
+} 
 ?>
+
 <h2 style="text-align:center; text-decoration:underline;" >User information from the server</h2>
 <div class="row-fluid">
 	<div class="span4" style="border:0px purple solid;" >

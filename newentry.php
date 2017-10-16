@@ -20,9 +20,9 @@ $datainsert = mysqli_query($conn, "INSERT INTO `personactivities` (`activity`, `
 
 if ($datainsert) {
  //   echo "New record created successfully" . mysqli_error($conn);
-	header('location: correct.php?status2=2');
+	header('location: correct.php?status=2');
 } else {
   //  echo "<br /> Error: " . $datainsert . "<br>" . mysqli_error($conn);
-    header('location: correct.php?status5=5');
+    header('location: correct.php?status=5');
 }
 ?>

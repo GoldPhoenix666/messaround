@@ -16,9 +16,9 @@ var_dump("DELETE FROM `personname` WHERE `personname`.`personid` = '$personid' "
 
 if ($datainsert) {
 //echo "New record created successfully";
-    header('location: correct.php?status3=3');
+    header('location: correct.php?status=3');
 } else {
    // echo "Error: " . $datainsert . "<br>" . mysqli_error($conn);
-    header('location: correct.php?status6=6');
+    header('location: correct.php?status=6');
 }
 ?>

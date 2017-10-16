@@ -23,8 +23,8 @@ $datainsert = mysqli_query($conn, "
 UPDATE `personactivities` SET `activity` = '$activity', `hours` = '$hours', `minutes` = '$minutes', `dataid` = '$dataid', `personid` = '$personid' WHERE `personactivities`.`dataid` ='$dataid'");
 
 if ($datainsert) {
-	header('location: correct.php?status1=1');
+	header('location: correct.php?status=1');
 } else {
-	header('location: correct.php?status4=4');
+	header('location: correct.php?status=4');
 }
 ?>
