@@ -148,7 +148,8 @@ $occurrencetable .= "</table>";
     <script src="js/bootstrap.min.js"></script>
 	<style type="text/css">
 
-		body{
+.table-scrollable{
+    overflow: auto;
 		}
 
 
@@ -247,13 +248,13 @@ echo '<div class="alert alert-danger"><p>' . $error . '</p></div>';
 </div>
 
 <div class="row-fluid">	
-	<div class="span4">
+	<div class="span4 table-scrollable">
 		<?php echo $activitytable ?>	
 	</div>
-	<div class="span4">
+	<div class="span4 table-scrollable">
 		<?php echo $peopletable ?>
 	</div>
-	<div class="span4">
+	<div class="span4 table-scrollable">
 		<?php echo $occurrencetable ?>
 	</div>
 </div>

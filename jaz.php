@@ -6,12 +6,13 @@
   	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css">
     <script src="http://code.jquery.com/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
 	<style type="text/css">
 
-		body{
-			padding: 5px;
+.table-scrollable{
+    overflow: auto;
 		}
 
 
@@ -71,12 +72,12 @@ activechartdata.addRow(["Eating  ", 1]);activechartdata.addRow(["Sleeping  ", 7]
     
 
 namechartdata.addRow(["John  ", 6]);
-namechartdata.addRow(["Jill  ", 2]);
 namechartdata.addRow(["Django  ", 2]);
+namechartdata.addRow(["Jill  ", 2]);
 namechartdata.addRow(["Jack  ", 1]);
 namechartdata.addRow(["newtest  ", 1]);
-namechartdata.addRow(["sdfsdfsdf  ", 0]);
-namechartdata.addRow(["empty  ", 0]);  
+namechartdata.addRow(["empty  ", 0]);
+namechartdata.addRow(["sdfsdfsdf  ", 0]);  
 
       	var options = {title: 'Peoples activities', chartArea: {width: '60%'},
       	hAxis: {
@@ -88,35 +89,26 @@ namechartdata.addRow(["empty  ", 0]);
 		};
 	</script>
 
-	<script type="text/javascript">
-		function empty() {
-    var x;
-    x = document.getElementById("input-check").value;
-    if (x == "") {
-        alert("Please fill in all entries");
-        return false;
-    };
-}
-	</script>
-
 </head>
-
 <body>
-<h2 style="text-align:center; text-decoration:underline;" >This is the information from the server</h2>
-<div class="row">
+
+<div class="alert alert-success"><p> Update Successful! Information has been updated</p></div>
+<h2 style="text-align:center; text-decoration:underline;" >Popularity of Activities</h2>
+
+<div class="row-fluid">
 	<div class="span4" style="border:0px purple solid;" >
-		<div id="activitydiv" style="height:500px;"></div>
+		<div id="activitydiv" style="min-height:500px;"></div>
 	</div>
 	<div class="span4" style="border:0px black solid;" >
-		<div id="peoplediv" style="height:500px;"></div>		
+		<div id="peoplediv" style="min-height:500px;"></div>		
 	</div>
 	<div class="span4" style="border:0px grey solid;" >				
-		<div id="piedatadiv" style="height:500px;"></div>
+		<div id="piedatadiv" style="min-height:500px;"></div>
 	</div>
 </div>
 
-<div class="row">	
-	<div class="span4">
+<div class="row-fluid">	
+	<div class="span4 table-scrollable">
 		<table class="table table-bordered table-hover" style="float: none; margin: 0 auto;">
 			<tr>
 				<th>Name</th><th>Hours</th><th>Minutes</th><th>Activity</th><th>Delete</th><th>Edit</th>
@@ -326,7 +318,7 @@ namechartdata.addRow(["empty  ", 0]);
 	</td>
 </tr></table>	
 	</div>
-	<div class="span4">
+	<div class="span4 table-scrollable">
 		<table class="table table-bordered table-hover" style="float: none; margin: 0 auto;">
 		<tr>
 			<th>Name</th><th>Total Hours</th><th>Total Minutes</th><th># of Activities</th><th>Delete</th>
@@ -342,17 +334,6 @@ namechartdata.addRow(["empty  ", 0]);
 		</form>
 	</td>
 </tr><tr>
-	<td>Jill</td>
-	<td>9</td>
-	<td>66</td>
-	<td>2</td>
-	<td>
-		<form action="delete2.php" method="post">
-			<input type="hidden" name="personid" value="3" />
-			<input type="submit" style="margin-top:20px;" class="btn btn-default" value="Delete" name="delete" />
-		</form>
-	</td>
-</tr><tr>
 	<td>Django</td>
 	<td>23</td>
 	<td>57</td>
@@ -360,6 +341,17 @@ namechartdata.addRow(["empty  ", 0]);
 	<td>
 		<form action="delete2.php" method="post">
 			<input type="hidden" name="personid" value="4" />
+			<input type="submit" style="margin-top:20px;" class="btn btn-default" value="Delete" name="delete" />
+		</form>
+	</td>
+</tr><tr>
+	<td>Jill</td>
+	<td>9</td>
+	<td>66</td>
+	<td>2</td>
+	<td>
+		<form action="delete2.php" method="post">
+			<input type="hidden" name="personid" value="3" />
 			<input type="submit" style="margin-top:20px;" class="btn btn-default" value="Delete" name="delete" />
 		</form>
 	</td>
@@ -386,17 +378,6 @@ namechartdata.addRow(["empty  ", 0]);
 		</form>
 	</td>
 </tr><tr>
-	<td>sdfsdfsdf</td>
-	<td>0</td>
-	<td>0</td>
-	<td>0</td>
-	<td>
-		<form action="delete2.php" method="post">
-			<input type="hidden" name="personid" value="41" />
-			<input type="submit" style="margin-top:20px;" class="btn btn-default" value="Delete" name="delete" />
-		</form>
-	</td>
-</tr><tr>
 	<td>empty</td>
 	<td>0</td>
 	<td>0</td>
@@ -407,8 +388,19 @@ namechartdata.addRow(["empty  ", 0]);
 			<input type="submit" style="margin-top:20px;" class="btn btn-default" value="Delete" name="delete" />
 		</form>
 	</td>
+</tr><tr>
+	<td>sdfsdfsdf</td>
+	<td>0</td>
+	<td>0</td>
+	<td>0</td>
+	<td>
+		<form action="delete2.php" method="post">
+			<input type="hidden" name="personid" value="41" />
+			<input type="submit" style="margin-top:20px;" class="btn btn-default" value="Delete" name="delete" />
+		</form>
+	</td>
 </tr></table>	</div>
-	<div class="span4">
+	<div class="span4 table-scrollable">
 		<table class="table table-bordered table-hover" style="float: none; margin: 0 auto;" >
 		<tr>
 			<th>Activity</th>
@@ -417,6 +409,22 @@ namechartdata.addRow(["empty  ", 0]);
 <tr>
 	<td>newtest</td>
 	<td>2</td>
+</tr>
+<tr>
+	<td>nfjisuhfdo</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>new</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>rtyt</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>Youtube</td>
+	<td>1</td>
 </tr>
 <tr>
 	<td>Waiting</td>
@@ -441,52 +449,35 @@ namechartdata.addRow(["empty  ", 0]);
 <tr>
 	<td>Sleeping</td>
 	<td>1</td>
-</tr>
-<tr>
-	<td>nfjisuhfdo</td>
-	<td>1</td>
-</tr>
-<tr>
-	<td>new</td>
-	<td>1</td>
-</tr>
-<tr>
-	<td>rtyt</td>
-	<td>1</td>
-</tr>
-<tr>
-	<td>Youtube</td>
-	<td>1</td>
 </tr></table>	</div>
 </div>
-
 <br />
 
-<div class="row">
-<div class="span6" style="border: 0px red solid; text-align: center;">
-	<h3>Add Information here</h3>
-	<form action="newentry.php" method="post" style="float: none; margin: 0 auto;" >
-		<label>Activity:</label>
-			<input type="text" name="activity" value="" id="input-check" >
-		<label>Hours:</label>
-			<input type="number" name="hours" value="">
-		<label>Minutes:</label>
-			<input type="number" name="minutes" min="0" max="59" value="">
-		<label>Name:</label>
-			<select name="personid">
+<div class="row-fluid">
+	<div class="span6" style="border: 0px red solid; text-align: center;">
+		<h3>Add Information here</h3>
+		<form action="newentry.php" method="post" style="float: none; margin: 0 auto;" >
+			<label>Activity:</label>
+				<input type="text" name="activity" required>
+			<label>Hours:</label>
+					<input type="number" name="hours" required>
+			<label>Minutes:</label>
+				<input type="number" name="minutes" min="0" max="59" required>
+			<label>Name:</label>
+				<select name="personid">
 
 				<option value='1'>John</option><option value='2'>Jack</option><option value='3'>Jill</option><option value='4'>Django</option><option value='36'>newtest</option><option value='37'>empty</option><option value='41'>sdfsdfsdf</option>
- 			</select>
-			<br />
-		<button type="submit" style="margin-top:-10px;" onClick="return empty()" class="btn btn-success btn-small">Add</button>
-	</form>
+ 				</select>
+				<br />
+			<button type="submit" style="margin-top:-10px;" class="btn btn-success btn-small">Add</button>
+		</form>
 </div>
 
 <div class="span6" style="border: 0px red solid;">
 	<form action="addname.php" method="post" style="float: none; margin: 0 auto; text-align: center;">
 		<h3>Add User</h3>		
 		<label>Username:</label>
-			<input type="text" name="personname" value="" />
+			<input type="text" name="personname" required />
 			<br />
  		<button type="submit" style="margin-top:-10px;" class="btn btn-success btn-small">Add</button>
 		<br />
@@ -494,5 +485,4 @@ namechartdata.addRow(["empty  ", 0]);
 </div>
 </div>
 </body>
-
 </html>
