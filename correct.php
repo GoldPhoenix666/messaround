@@ -220,7 +220,6 @@ $occurrencetable .= "</table>";
 	</script>
 
 </head>
-
 <body>
 
 <?php
@@ -233,7 +232,7 @@ echo '<div class="alert alert-danger"><p>' . $error . '</p></div>';
 } 
 ?>
 
-<h2 style="text-align:center; text-decoration:underline;" >Populairty of Activities</h2>
+<h2 style="text-align:center; text-decoration:underline;" >Popularity of Activities</h2>
 
 <div class="row-fluid">
 	<div class="span4" style="border:0px purple solid;" >
@@ -247,7 +246,6 @@ echo '<div class="alert alert-danger"><p>' . $error . '</p></div>';
 	</div>
 </div>
 
-
 <div class="row-fluid">	
 	<div class="span4">
 		<?php echo $activitytable ?>	
@@ -259,7 +257,6 @@ echo '<div class="alert alert-danger"><p>' . $error . '</p></div>';
 		<?php echo $occurrencetable ?>
 	</div>
 </div>
-
 <br />
 
 <div class="row-fluid">
@@ -288,7 +285,6 @@ echo '<div class="alert alert-danger"><p>' . $error . '</p></div>';
 		</form>
 </div>
 
-
 <div class="span6" style="border: 0px red solid;">
 	<form action="addname.php" method="post" style="float: none; margin: 0 auto; text-align: center;">
 		<h3>Add User</h3>		
@@ -300,7 +296,5 @@ echo '<div class="alert alert-danger"><p>' . $error . '</p></div>';
 	</form>
 </div>
 </div>
-
 </body>
-
 </html>
