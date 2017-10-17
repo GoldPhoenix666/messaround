@@ -14,6 +14,11 @@
 .table-scrollable{
     overflow: auto;
 		}
+@media screen and (max-width: 1250px) {
+    table {
+        width:0%;
+    }
+}
 
 
 	</style>
@@ -95,9 +100,10 @@ namechartdata.addRow(["sdfsdfsdf  ", 0]);
 <div class="alert alert-success"><p> Update Successful! Information has been updated</p></div>
 <h2 style="text-align:center; text-decoration:underline;" >Popularity of Activities</h2>
 
-<div class="row-fluid">
-	<div class="span4" style="border:0px purple solid;" >
-		<div id="activitydiv" style="min-height:500px;"></div>
+
+<div class="row-fluid" style="">
+	<div class="span4" style="border:0px purple solid; " >
+		<div id="activitydiv" style="min-height:500px; padding:0px"></div>
 	</div>
 	<div class="span4" style="border:0px black solid;" >
 		<div id="peoplediv" style="min-height:500px;"></div>		
