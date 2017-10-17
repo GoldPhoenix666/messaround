@@ -1,5 +1,5 @@
 <?php
-include('C:\xampp\htdocs\connection\connect.php');
+include('C:\xampp\connection\connect.php');
 
 $userhourquery = mysqli_query($conn, "SELECT *, ROUND(SUM(`hours`)* 100 / (SELECT SUM(`hours`) FROM `personactivities`), 2)  AS `percent` FROM `personactivities` GROUP BY `dataid`");
 
